@@ -1,28 +1,63 @@
 package app.games;
 
+import app.Configuration;
+import app.StartGame;
+import app.display.minesweeper.MinesweeperGame;
 import app.gameengine.Game;
+import app.games.mario.MarioGame;
+import app.games.pacman.PacmanGame;
+import app.games.roguelikeobjects.RoguelikeGame;
+import app.games.snake.SnakeGame;
 
+/**
+ * Factory class for creating {@code Game} objects.
+ * <p>
+ * Primarily used by {@link StartGame} to create the game being played. Which
+ * game that is is defined within {@link Configuration}.
+ * 
+ * @see StartGame
+ * @see Configuration
+ */
 public class GameFactory {
 
+    /**
+     * Prevent instantiation, as this class is intended to be static.
+     */
+    private GameFactory() {
+    }
+
+    /**
+     * Depending on the input string, return a {@code Game} of that type.
+     * 
+     * @param gameName the name of the game to be created
+     * @return the game associated with that name
+     */
     public static Game getGame(String gameName) {
         Game game = null;
-        switch (gameName) {
-            case "sample top down game":
-                game = new SampleTopDownGame();
+        switch (gameName.toLowerCase()) {
+            case "minesweeper":
+                game = new MinesweeperGame();
                 break;
-
-            /*
-             * As is mentioned in `Configuration.java`, you can set the
-             * `game` instance variable to be any string you want. Then, add
-             * the string here in this switch statement and start up your
-             * own game. For information on how a game should be setup,
-             * checkout `SampleTopDownGame.java`
-             */
-            case "your game here":
-                // game = new YourAmazingGame();
+            case "sample game":
+                game = new SampleGame();
+                break;
+            case "snake":
+                game = new SnakeGame();
+                break;
+            case "mario":
+                game = new MarioGame();
+                break;
+            case "pacman":
+                game = new PacmanGame();
+                break;
+            case "roguelike":
+                game = new RoguelikeGame();
                 break;
             default:
                 System.out.println("No such game");
+        }
+        if (game != null) {
+            game.init();
         }
         return game;
     }

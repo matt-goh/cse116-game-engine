@@ -1,140 +1,471 @@
 package app.gameengine;
 
-import app.gameengine.controller.GameControls;
-import app.gameengine.graphics.SpriteLocation;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import app.Settings;
+import app.display.common.controller.BasicMouseControls;
+import app.display.common.controller.KeyboardControls;
+import app.display.common.controller.MouseControls;
+import app.display.common.Background;
+import app.display.common.effects.Effect;
 import app.gameengine.model.gameobjects.DynamicGameObject;
 import app.gameengine.model.gameobjects.GameObject;
 import app.gameengine.model.gameobjects.Player;
 import app.gameengine.model.gameobjects.StaticGameObject;
-import app.games.commonobjects.Wall;
 import app.gameengine.model.physics.PhysicsEngine;
 import app.gameengine.model.physics.Vector2D;
-import app.games.topdownobjects.Projectile;
-
-import java.util.ArrayList;
 
 /**
- * Basic level structure in the game. Initially, the only type of level that
- * exists is a top-down level, but in future tasks you will be creating a
- * platformer level which will use the same game engine
+ * Represents a single level within a game.
+ * <p>
+ * Second only to {@link Game} in terms of control over game logic, and
+ * generally is most reponsible for the majority of gameplay. This class
+ * manages storage and manipulation of {@link GameObject}s,
+ * {@link KeyboardControls}, {@link MouseControls}, and a {@link PhysicsEngine}.
+ * 
+ * @see Game
+ * @see PhysicsEngine
+ * @see KeyboardControls
+ * @see MouseControls
  */
 public abstract class Level {
 
-    protected GameControls gameControls;
+    protected KeyboardControls keyboardControls;
+    protected MouseControls mouseControls;
     protected Game game;
     protected PhysicsEngine physicsEngine;
 
     protected int width;
     protected int height;
-    protected ArrayList<StaticGameObject> staticGameObject = new ArrayList<>();
+    protected ArrayList<StaticGameObject> staticObjects = new ArrayList<>();
     protected ArrayList<DynamicGameObject> dynamicObjects = new ArrayList<>();
+    private ArrayList<StaticGameObject> originalStaticObjects = new ArrayList<>();
+    private ArrayList<DynamicGameObject> originalDynamicObjects = new ArrayList<>();
 
     protected boolean isLoaded;
-
     protected Vector2D playerStartLocation = new Vector2D(1.0, 1.0);
+    private Vector2D lastPlayerLocation;
 
-    protected String groundTileSpriteSheet = "Ground/Grass.png";
-    protected SpriteLocation groundTileSpriteLocation = new SpriteLocation(2, 0);
+    protected Background background = new Background();
+    private String levelName;
+    private HashMap<Effect, Vector2D> activeEffects = new HashMap<>();
+    protected double playtime;
+    protected double score;
 
-    protected String name;
-
+    /**
+     * Constructs a level associated with the given game and with the given physics
+     * engine, width, height, and name.
+     * 
+     * @param game          the game this level is a part of
+     * @param physicsEngine the physics engine to be used
+     * @param width         the width of the level, in tiles
+     * @param height        the height of the level, in tiles
+     * @param name          the name of the level
+     */
     public Level(Game game, PhysicsEngine physicsEngine, int width, int height, String name) {
         this.game = game;
-        this.name = name;
+        this.levelName = name;
         this.physicsEngine = physicsEngine;
         this.width = width;
         this.height = height;
         this.isLoaded = false;
+        this.mouseControls = new BasicMouseControls(game);
     }
 
+    /**
+     * Returns the player associated with this level.
+     * 
+     * @return the player in this level
+     */
     public Player getPlayer() {
         return this.game.getPlayer();
     }
 
-    public GameControls getPlayerControls() {
-        return this.gameControls;
+    /**
+     * Returns the keyboard controls used by this level.
+     * 
+     * @return the keyboard controls
+     */
+    public KeyboardControls getKeyboardControls() {
+        return this.keyboardControls;
     }
 
-    public void wallOffBoundary() {
-        for (int i = 0; i < this.getWidth(); i++) {
-
-            this.getStaticObjects().add(new Wall(i, 0));
-            this.getStaticObjects().add(new Wall(i, this.getHeight() - 1));
-        }
-        for (int i = 1; i < this.getHeight() - 1; i++) {
-            this.getStaticObjects().add(new Wall(0, i));
-            this.getStaticObjects().add(new Wall(this.getWidth() - 1, i));
-        }
+    /**
+     * Sets the keyboard controls used by this level.
+     * 
+     * @param controls the keyboard controls
+     */
+    public void setKeyboardControls(KeyboardControls controls) {
+        this.keyboardControls = controls;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Returns the mouse controls used by this level.
+     * 
+     * @return the mouse controls
+     */
+    public MouseControls getMouseControls() {
+        return this.mouseControls;
     }
 
+    /**
+     * Sets the mouse controls used by this level.
+     * 
+     * @param controls the keyboard controls
+     */
+    public void setMouseControls(MouseControls controls) {
+        this.mouseControls = controls;
+    }
+
+    /**
+     * Returns the physics engine used by this level
+     * 
+     * @return the physics engine
+     */
+    public PhysicsEngine getPhysicsEngine() {
+        return physicsEngine;
+    }
+
+    /**
+     * Returns the name of the level.
+     * 
+     * @return the name of the level
+     */
     public String getName() {
-        return this.name;
+        return this.levelName;
     }
 
+    /**
+     * Sets the name of the level.
+     * 
+     * @param levelName the name of the level
+     */
+    public void setName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    /**
+     * Returns this level's class name.
+     * 
+     * @return the name of this level's class
+     */
+    public String getLevelType() {
+        return this.getClass().getSimpleName();
+    }
+
+    /**
+     * Returns whether this level has been loaded. This is used by game engine
+     * internals, and should not be used otherwise.
+     * 
+     * @return {@code true} if the level has been loaded, and {@code false}
+     *         otherwise
+     */
     public boolean isLoaded() {
         return this.isLoaded;
     }
 
+    /**
+     * Set whether this level has been loaded. This is used by game engine
+     * internals, and should not be used otherwise.
+     */
     public void setLoaded() {
         this.isLoaded = true;
     }
 
-    public String getGroundTileSpriteSheet() {
-        return this.groundTileSpriteSheet;
+    /**
+     * Performs any operations necessary to load a level. This can include setup of
+     * {@code GameObject}s, such as the player, and any graphics or sound effects.
+     */
+    public void load() {
+        if (!isLoaded) {
+            this.originalDynamicObjects = new ArrayList<>(this.dynamicObjects);
+            this.originalStaticObjects = new ArrayList<>(this.staticObjects);
+        }
+        // Load player
+        this.playtime = 0;
+        Vector2D playerLocation = lastPlayerLocation == null ? playerStartLocation : lastPlayerLocation;
+        this.getPlayer().setLocation(playerLocation.getX(), playerLocation.getY());
+        this.dynamicObjects.removeIf(GameObject::isPlayer);
+        this.dynamicObjects.add(this.getPlayer());
+        // Effects
+        this.activeEffects.clear();
+        this.dynamicObjects.forEach(DynamicGameObject::onSpawn);
+        this.staticObjects.forEach(StaticGameObject::onSpawn);
+        this.onStart();
     }
 
-    public SpriteLocation getGroundTileSpriteLocation() {
-        return this.groundTileSpriteLocation;
+    /**
+     * Resets a level to it's initial state. This can include resetting each
+     * {@code GameObject}, as well as resetting which game objects are present in
+     * the level.
+     */
+    public void reset() {
+        if (!this.isLoaded) {
+            return;
+        }
+        // Reset objects
+        this.playtime = 0;
+        this.dynamicObjects.clear();
+        this.dynamicObjects.addAll(this.originalDynamicObjects);
+        this.staticObjects.clear();
+        this.staticObjects.addAll(this.originalStaticObjects);
+        this.dynamicObjects.forEach(GameObject::reset);
+        this.staticObjects.forEach(GameObject::reset);
+        // Reset player
+        this.getPlayer().reset();
+        this.getPlayer().setLocation(playerStartLocation.getX(), playerStartLocation.getY());
+        this.dynamicObjects.removeIf(GameObject::isPlayer);
+        this.dynamicObjects.add(this.getPlayer());
+        this.lastPlayerLocation = null;
+        // Reset controls
+        this.keyboardControls.reset();
+        this.mouseControls.reset();
+        // Effects
+        this.activeEffects.clear();
+        this.dynamicObjects.forEach(DynamicGameObject::onSpawn);
+        this.staticObjects.forEach(StaticGameObject::onSpawn);
+        this.onStart();
     }
 
+    /**
+     * Intended to be called whenever a level is started, ie. loaded or reset. This
+     * method should apply any graphical or sound effects associated with this level
+     * being started, or any other non-essential logic. It is separate from
+     * {@link #load()} and {@link #reset()} so that inherited logic can be
+     * maintained, but other effects are not.
+     * <p>
+     * By default, it does nothing
+     */
+    public void onStart() {
+
+    }
+
+    /**
+     * Returns the {@code Background} used by this level. That background can either
+     * be tiled or use one or more background images.
+     * <p>
+     * If not set, the background will use the default {@link Background}
+     * constructor
+     * 
+     * @return the background of this level
+     */
+    public Background getBackground() {
+        return this.background;
+    }
+
+    /**
+     * Sets the {@code Background} used by this level. That background can either
+     * be tiled or use one or more background images.
+     * 
+     * @param background the background to be used
+     */
+    public void setBackground(Background background) {
+        this.background = background;
+    }
+
+    /**
+     * Returns all of the {@code StaticGameObject}s currently within the level.
+     * 
+     * @return a list of static objects
+     */
     public ArrayList<StaticGameObject> getStaticObjects() {
-        return this.staticGameObject;
+        return this.staticObjects;
     }
 
+    /**
+     * Returns all of the {@code DynamicGameObject}s currently within the level.
+     * 
+     * @return a list of dynamic objects
+     */
     public ArrayList<DynamicGameObject> getDynamicObjects() {
         return this.dynamicObjects;
     }
 
+    /**
+     * Returns the starting location of the {@code Player} within the level. If it
+     * has not been set, it defaults to (1, 1).
+     * 
+     * @return the starting location of the player
+     */
     public Vector2D getPlayerStartLocation() {
-        return this.playerStartLocation;
+        return new Vector2D(this.playerStartLocation.getX(), this.playerStartLocation.getY());
     }
 
+    /**
+     * Sets the starting location of the {@code Player} within the level.
+     * 
+     * @param x the x location to be set
+     * @param y the y location to be set
+     */
+    public void setPlayerStartLocation(double x, double y) {
+        this.playerStartLocation.setX(x);
+        this.playerStartLocation.setY(y);
+    }
+
+    /**
+     * Sets the last whole-numbered tile location of the player.
+     * 
+     * @param x the x location
+     * @param y the y location
+     */
+    public void setLastPlayerLocation(double x, double y) {
+        this.lastPlayerLocation = new Vector2D(Math.round(x), Math.round(y));
+    }
+
+    /**
+     * Returns the full width, in game tiles, of the level.
+     * 
+     * @return the width of the level
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the full height, in game tiles, of the level.
+     * 
+     * @return the height of the level
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Returns the width, in game tiles, of the visible portion of the level. If
+     * this is less than the value of {@link #getWidth()}, part of the level will
+     * not be displayed, which can be useful for large levels.
+     * 
+     * @return the visible width of the level
+     */
+    public int getViewWidth() {
+        return width;
+    }
+
+    /**
+     * Returns the height, in game tiles, of the visible portion of the level. If
+     * this is less than the value of {@link #getHeight()}, part of the level will
+     * not be displayed, which can be useful for large levels.
+     * 
+     * @return the visible height of the level
+     */
+    public int getViewHeight() {
+        return height;
+    }
+
+    /**
+     * Performs the necessary operations for when the left mouse button is pressed.
+     * By default, this simply calls the {@link #actionButtonPressed()} method.
+     * 
+     * @param location the location, in world space, of the click
+     */
+    public void handleLeftClick(Vector2D location) {
+        this.actionButtonPressed();
+    }
+
+    /**
+     * Performs the necessary operations for when the right mouse button is pressed.
+     * By default, this simply cycles the player's inventory.
+     * 
+     * @param location the location, in world space, of the click
+     */
+    public void handleRightClick(Vector2D location) {
+        this.getPlayer().cycleInventory();
+    }
+
+    /**
+     * Performs the necessary operations for when the action button (space bar by
+     * default), is pressed. By default, this activates the currently selected item
+     * in the player's inventory
+     */
     public void actionButtonPressed() {
-        Projectile projectile = new Projectile(new Vector2D(this.game.getPlayer().getLocation().getX(), this.game.getPlayer().getLocation().getY()), 5);
-        projectile.getVelocity().setX(this.game.getPlayer().getOrientation().getX() * 10);
-        projectile.getVelocity().setY(this.game.getPlayer().getOrientation().getY() * 10);
-        this.getDynamicObjects().add(projectile);
+        
     }
 
-    public void jumpButtonPressed(){
-
+    /**
+     * Returns a mapping of all {@link Effect}s that are currently active within the
+     * level to their central point. These can be associated with the level itself
+     * or any of the {@code GameObject}s within the level.
+     * 
+     * @return a mapping of effects to their location
+     */
+    public HashMap<Effect, Vector2D> getActiveEffects() {
+        return this.activeEffects;
     }
 
-    public void jumpButtonReleased(){
-
+    /**
+     * Returns a string used to display the level within the game's UI. This is not
+     * guaranteed to be used by the game's UI. By default, it displays the name of
+     * the level and the name of the player's active item.
+     * 
+     * @return a string representing the current level
+     */
+    public String getUIString() {
+        return "Level: " + this.getName() + " - " + "Equipped: " + this.getPlayer().getActiveItemID();
     }
 
+    /**
+     * Update the entire level according to the amount of time that has elapsed
+     * since the last frame. This includes updating all objects, static and dynamic,
+     * within the current level, removing destroyed objects, triggering the physics
+     * engine to update the level, and updating all active graphical effects in the
+     * level.
+     * 
+     * @param dt the time elapsed since the last update, in seconds
+     */
+    @SuppressWarnings("unused")
     public void update(double dt) {
-        this.physicsEngine.updateLevel(this, dt);
+        this.playtime += dt;
         this.dynamicObjects.removeIf(GameObject::isDestroyed);
-        for (DynamicGameObject object : this.getDynamicObjects()) {
+        this.staticObjects.removeIf(GameObject::isDestroyed);
+        this.physicsEngine.updateLevel(dt, this);
+        for (int i = 0; i < this.getDynamicObjects().size(); i++) {
+            DynamicGameObject object = this.getDynamicObjects().get(i);
             object.update(dt, this);
+            object.getEffects().forEach(a -> this.activeEffects.put(a, object.getLocation().copy()));
         }
-        for (StaticGameObject object : this.getStaticObjects()) {
+        for (int i = 0; i < this.getStaticObjects().size(); i++) {
+            StaticGameObject object = this.getStaticObjects().get(i);
             object.update(dt, this);
+            object.getEffects().forEach(a -> this.activeEffects.put(a, object.getLocation().copy()));
         }
+        this.dynamicObjects.removeIf(GameObject::isDestroyed);
+        this.staticObjects.removeIf(GameObject::isDestroyed);
+        if (Settings.showHitboxes()) {
+            this.dynamicObjects.forEach(a -> a.showHitbox());
+            this.staticObjects.forEach(a -> a.showHitbox());
+        }
+        this.activeEffects.forEach((k, v) -> k.update(dt));
+        this.activeEffects.entrySet().removeIf(e -> e.getKey().isFinished());
+    }
+
+    /**
+     * Returns the amount of time that has elapsed since the level began.
+     * 
+     * @return the elapsed time
+     */
+    public double getPlaytime() {
+        return this.playtime;
+    }
+
+    /**
+     * Returns the current score within the level. What this score measures depends
+     * on the type of level and game.
+     * 
+     * @return the score
+     */
+    public double getScore() {
+        return this.score;
+    }
+
+    /**
+     * Sets the current score within the level to the given amount. What this score
+     * measures depends on the type of level and game.
+     * 
+     * @param score the score to set
+     */
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

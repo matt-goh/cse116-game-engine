@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html data-darkreader-mode="dynamic" data-darkreader-scheme="dark" style="--wm-toolbar-height: 67px;"><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen">@layer {
+html {
+    background-color: var(--darkreader-background-ffffff, #181a1b) !important;
+}
+html {
+    color-scheme: dark !important;
+}
+iframe {
+    color-scheme: dark !important;
+}
+html, body {
+    background-color: var(--darkreader-background-ffffff, #181a1b);
+}
+html, body {
+    border-color: var(--darkreader-border-4c4c4c, #736b5e);
+    color: var(--darkreader-text-000000, #e8e6e3);
+}
+a {
+    color: var(--darkreader-text-0040ff, #3391ff);
+}
+table {
+    border-color: var(--darkreader-border-808080, #545b5e);
+}
+mark {
+    color: var(--darkreader-text-000000, #e8e6e3);
+}
+::placeholder {
+    color: var(--darkreader-text-a9a9a9, #b2aba1);
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: var(--darkreader-background-faffbd, #404400) !important;
+    color: var(--darkreader-text-000000, #e8e6e3) !important;
+}
+* {
+    scrollbar-color: var(--darkreader-background-b0b0b0, #454a4d) var(--darkreader-background-f1f1f1, #202324);
+}
+::selection {
+    background-color: var(--darkreader-background-0060d4, #004daa) !important;
+    color: var(--darkreader-text-ffffff, #e8e6e3) !important;
+}
+::-moz-selection {
+    background-color: var(--darkreader-background-0060d4, #004daa) !important;
+    color: var(--darkreader-text-ffffff, #e8e6e3) !important;
+}
+}</style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, img.Wirisformula, a[data-testid="headerMediumLogo"]>svg, .d2l-navigation-link-image-container, .d2l-iframe-loading-container, .sparkline-canvas, .sparkline-mouse-highlight, .search-toolbar-logo, .ia-wordmark {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}
+[data-darkreader-inline-bg] {
+  background: var(--darkreader-inline-bg) !important;
+}
+[data-darkreader-inline-border-short] {
+  border: var(--darkreader-inline-border-short) !important;
+}
+[data-darkreader-inline-border-bottom-short] {
+  border-bottom: var(--darkreader-inline-border-bottom-short) !important;
+}
+[data-darkreader-inline-border-left-short] {
+  border-left: var(--darkreader-inline-border-left-short) !important;
+}
+[data-darkreader-inline-border-right-short] {
+  border-right: var(--darkreader-inline-border-right-short) !important;
+}
+[data-darkreader-inline-border-top-short] {
+  border-top: var(--darkreader-inline-border-top-short) !important;
+}
+[data-darkreader-inline-invert] {
+    filter: invert(100%) hue-rotate(180deg);
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: var(--darkreader-background-ffffff, #181a1b);
+   --darkreader-neutral-text: var(--darkreader-text-000000, #e8e6e3);
+   --darkreader-selection-background: var(--darkreader-background-0060d4, #004daa);
+   --darkreader-selection-text: var(--darkreader-text-ffffff, #e8e6e3);
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><script src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/athena.js" type="text/javascript"></script><meta name="darkreader" content="7e6e3bef880443c69e6ebd20aa4cda63"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: var(--darkreader-background-ffd76e, #684b00) !important;
+    border-color: var(--darkreader-background-c59d00, #9e7e00) !important;
+    color: var(--darkreader-text-302505, #d7d4cf) !important;
+}
+#vimvixen-console-frame {
+    color-scheme: light !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+#edge-translate-panel-body,
+.MuiTypography-body1,
+.nfe-quote-text {
+    color: var(--darkreader-neutral-text) !important;
+}
+gr-main-header {
+    background-color: var(--darkreader-background-add8e6, #1b4958) !important;
+}
+.tou-z65h9k,
+.tou-mignzq,
+.tou-1b6i2ox,
+.tou-lnqlqk {
+    background-color: var(--darkreader-neutral-background) !important;
+}
+.tou-75mvi {
+    background-color: var(--darkreader-background-cfecf5, #0f3a47) !important;
+}
+.tou-ta9e87,
+.tou-1w3fhi0,
+.tou-1b8t2us,
+.tou-py7lfi,
+.tou-1lpmd9d,
+.tou-1frrtv8,
+.tou-17ezmgn {
+    background-color: var(--darkreader-background-f5f5f5, #1e2021) !important;
+}
+.tou-uknfeu {
+    background-color: var(--darkreader-background-faedda, #432c09) !important;
+}
+.tou-6i3zyv {
+    background-color: var(--darkreader-background-85c3d8, #245d70) !important;
+}
+div.mermaid-viewer-control-panel .btn {
+    background-color: var(--darkreader-neutral-background);
+    fill: var(--darkreader-neutral-text);
+}
+svg g rect.er {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.entityBox {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.attributeBoxOdd {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.attributeBoxEven {
+    fill: var(--darkreader-selection-background);
+    fill-opacity: 0.8 !important;
+}
+svg rect.er.relationshipLabelBox {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g g.nodes rect,
+svg g g.nodes polygon {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.task {
+    fill: var(--darkreader-selection-background) !important;
+}
+svg line.messageLine0,
+svg line.messageLine1 {
+    stroke: var(--darkreader-neutral-text) !important;
+}
+div.mermaid .actor {
+    fill: var(--darkreader-neutral-background) !important;
+}
+mitid-authenticators-code-app > .code-app-container {
+    background-color: white !important;
+    padding-top: 1rem;
+}
+iframe#unpaywall[src$="unpaywall.html"] {
+    color-scheme: light !important;
+}
+select {
+    --darkreader-bg--form-control-background-color: rgba(22, 22, 22, 0) !important;
+}
+select * {
+    background-color: var(--darkreader-neutral-background) !important;
+}
+body#tumblr {
+    --darkreader-bg--secondary-accent: 31, 32, 34 !important;
+    --darkreader-bg--white: 23, 23, 23 !important;
+    --darkreader-text--black: 228, 224, 218 !important;
+}
+:host {
+    --d2l-border-color: var(--darkreader-bg--d2l-color-gypsum) !important;
+    --d2l-button-icon-background-color-hover: var(--darkreader-bg--d2l-color-gypsum) !important;
+    --d2l-color-ferrite: var(--darkreader-neutral-text) !important;
+    --d2l-color-sylvite: var(--darkreader-bg--d2l-color-sylvite) !important;
+    --d2l-dropdown-background-color: var(--darkreader-neutral-background) !important;
+    --d2l-dropdown-border-color: var(--darkreader-border--d2l-color-mica) !important;
+    --d2l-input-backgroud-color: var(--darkreader-neutral-background) !important;
+    --d2l-menu-border-color: var(--darkreader-bg--d2l-color-gypsum) !important;
+    --d2l-tooltip-background-color: var(--darkreader-neutral-background) !important;
+    --d2l-tooltip-border-color: var(--darkreader-bg--d2l-color-gypsum) !important;
+}
+:host([_floating]) .d2l-floating-buttons-container {
+    background-color: var(--darkreader-neutral-background) !important;
+    border-top-color: var(--darkreader-border--d2l-color-mica) !important;
+    opacity: 0.88 !important;
+}
+d2l-card {
+    background: var(--darkreader-neutral-background) !important;
+    border-color: var(--darkreader-border--d2l-color-gypsum) !important;
+}
+d2l-dropdown-content > div,
+d2l-menu-item {
+    background-color: var(--darkreader-neutral-background) !important;
+    border-radius: 10px !important;
+}
+d2l-empty-state-simple {
+    border-color: var(--darkreader-bg--d2l-color-gypsum) !important;
+}
+.d2l-button-filter > ul > li > a.vui-button {
+    border-color: var(--darkreader-border--d2l-color-mica) !important;
+}
+.d2l-label-text:has(.d2l-button-subtle-content):hover,
+.d2l-label-text:has(.d2l-button-subtle-content):focus,
+.d2l-label-text:has(.d2l-button-subtle-content):active {
+    background-color: var(--darkreader-bg--d2l-color-gypsum) !important;
+}
+.d2l-navigation-centerer {
+    color: inherit !important;
+}
+.d2l-tabs-layout {
+    border-color: var(--darkreader-border--d2l-color-gypsum) !important;
+}
+.d2l-input,
+.d2l-calendar-date,
+.d2l-htmleditor-container {
+    background-color: var(--darkreader-neutral-background) !important;
+}
+.d2l-collapsible-panel {
+    border: 1px solid var(--darkreader-border--d2l-color-mica) !important;
+    border-radius: 0.4rem !important;
+}
+.d2l-collapsible-panel-divider {
+    border-bottom: 1px solid var(--darkreader-border--d2l-color-mica) !important;
+}
+.d2l-w2d-flex {
+    border-bottom: 2px solid var(--darkreader-border--d2l-color-mica) !important;
+}
+.d2l-collapsible-panel scrolled,
+.d2l-collapsible-panel-header,
+.d2l-w2d-collection-fixed {
+    background-color: var(--darkreader-neutral-background) !important;
+}
+.d2l-loading-spinner-bg {
+    fill: var(--darkreader-bg--d2l-color-gypsum) !important;
+}
+.d2l-loading-spinner-bg-stroke {
+    stroke: var(--darkreader-border--d2l-color-mica) !important;
+}
+.d2l-loading-spinner-wrapper svg path,
+.d2l-loading-spinner-wrapper svg circle {
+    fill: var(--darkreader-neutral-background) !important;
+}
+embed[type="application/pdf"] { filter: invert(100%) contrast(90%); }
+.measure {
+    z-index: 0 !important;
+}</style>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app219.us.archive.org';v.server_ms=714;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/bundle-playback.js" charset="utf-8"></script>
+<script type="text/javascript" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/wombat.js" charset="utf-8"></script>
+<script>window.RufflePlayer=window.RufflePlayer||{};window.RufflePlayer.config={"autoplay":"on","unmuteOverlay":"hidden","showSwfDownload":true};</script>
+<script type="text/javascript" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/ruffle.js"></script>
+<script type="text/javascript">
+    __wm.init("https://web.archive.org/web");
+  __wm.wombat("https://gameinternals.com/understanding-pac-man-ghost-behavior","20250117155542","https://web.archive.org/","web","https://web-static.archive.org/_static/",
+	      "1737129342");
+</script>
+<link rel="stylesheet" type="text/css" href="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/banner-styles.css"><style class="darkreader darkreader--cors" media="screen">:root {
+  --wm-toolbar-height: 65px;
+}
+#wm-ipp-base {
+  height:65px;
+  padding:0;
+  margin:0;
+  border:none;
+  background:none transparent;
+}
+#wm-ipp {
+  z-index: 2147483647;
+}
+#wm-ipp, #wm-ipp * {
+  font-family:Lucida Grande, Helvetica, Arial, sans-serif;
+  font-size:12px;
+  line-height:1.2;
+  letter-spacing:0;
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+  min-width:0 !important;
+  min-height:0;
+  outline:none;
+  float:none;
+  text-align:left;
+  border:none;
+  color: #000;
+  text-indent: 0;
+  position: initial;
+  background: none;
+}
+#wm-ipp div, #wm-ipp canvas {
+  display: block;
+}
+#wm-ipp div, #wm-ipp tr, #wm-ipp td, #wm-ipp a, #wm-ipp form {
+  padding:0;
+  margin:0;
+  border:none;
+  border-radius:0;
+  background-color:transparent;
+  background-image:none;
+  
+  height:auto;
+}
+#wm-ipp table {
+  border:none;
+  border-collapse:collapse;
+  margin:0;
+  padding:0;
+  width:auto;
+  font-size:inherit;
+}
+#wm-ipp form input {
+  padding:1px !important;
+  height:auto;
+  display:inline;
+  margin:0;
+  color: #000;
+  background: none #fff;
+  border: 1px solid #666;
+}
+#wm-ipp form input[type=submit] {
+  padding:0 8px !important;
+  margin:1px 0 1px 5px !important;
+  width:auto !important;
+  border: 1px solid #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+#wm-ipp form input[type=submit]:hover {
+  background: #eee !important;
+  cursor: pointer !important;
+}
+#wm-ipp form input[type=submit]:active {
+  transform: translateY(1px);
+}
+#wm-ipp a {
+  display: inline;
+}    
+#wm-ipp a:hover{
+  text-decoration:underline;
+}
+#wm-ipp a.wm-btn:hover {
+  text-decoration:none;
+  color:#ff0 !important;
+}
+#wm-ipp a.wm-btn:hover span {
+  color:#ff0 !important;
+}
+#wm-ipp #wm-ipp-inside {
+  margin: 0 6px;
+  border:5px solid #000;
+  border-top:none;
+  background-color:rgba(255,255,255,0.9);
+  -moz-box-shadow:1px 1px 4px #333;
+  -webkit-box-shadow:1px 1px 4px #333;
+  box-shadow:1px 1px 4px #333;
+  border-radius:0 0 8px 8px;
+}
+
+#wm-ipp #wm-logo {
+  padding:0 10px;
+  vertical-align:middle;
+  min-width:100px;
+  flex: 0 0 100px;
+}
+#wm-ipp .c {
+  padding-left: 4px;
+}
+#wm-ipp .c .u {
+    margin-top: 4px !important;
+}
+#wm-ipp .n {
+  padding:0 0 0 5px !important;
+  vertical-align: bottom;
+}
+#wm-ipp .n a {
+  text-decoration:none;
+  color:#33f;
+  font-weight:bold;
+}
+#wm-ipp .n .b {
+  padding:0 6px 0 0 !important;
+  text-align:right !important;
+  overflow:visible;
+  white-space:nowrap;
+  color:#99a;
+  vertical-align:middle;
+}
+#wm-ipp .n .y .b {
+  padding:0 6px 2px 0 !important;
+}
+#wm-ipp .n .c {
+  background:#000;
+  color:#ff0;
+  font-weight:bold;
+  padding:0 !important;
+  text-align:center;
+}
+#wm-ipp.hi .n td.c {
+  color:#ec008c;
+}
+#wm-ipp .n td.f {
+  padding:0 0 0 6px !important;
+  text-align:left !important;
+  overflow:visible;
+  white-space:nowrap;
+  color:#99a;
+  vertical-align:middle;
+}
+#wm-ipp .n tr.m td {
+  text-transform:uppercase;
+  white-space:nowrap;
+  padding:2px 0;
+}
+#wm-ipp .c .s {
+  padding:0 5px 0 0 !important;
+  vertical-align:bottom;
+}
+#wm-ipp #wm-nav-captures {
+  white-space: nowrap;
+}
+#wm-ipp .c .s a.t {
+  color:#33f;
+  font-weight:bold;
+  line-height: 1.8;
+}
+#wm-ipp .c .s div.r {
+  color: #666;
+  font-size:9px;
+  white-space:nowrap;
+}
+#wm-ipp .c .k {
+  padding-bottom:1px;
+}
+#wm-ipp .c .s {
+  padding:0 5px 2px 0 !important;
+}
+#wm-ipp td#displayMonthEl {
+  padding: 2px 0 !important;
+}
+#wm-ipp td#displayYearEl {
+  padding: 0 0 2px 0 !important;
+}
+
+div#wm-ipp-sparkline {
+  position:relative;
+  white-space:nowrap;
+  background-color:#fff;
+  cursor:pointer;
+  line-height:0.9;
+}
+#sparklineImgId, #wm-sparkline-canvas {
+  position:relative;
+  z-index:9012;
+  max-width:none;
+}
+#wm-ipp-sparkline div.yt {
+  position:absolute;
+  z-index:9010 !important;
+  background-color:#ff0 !important;
+  top: 0;
+}
+#wm-ipp-sparkline div.mt {
+  position:absolute;
+  z-index:9013 !important;
+  background-color:#ec008c !important;
+  top: 0;
+}  
+#wm-ipp .r {
+    margin-left: 4px;
+}
+#wm-ipp .r a {
+  color:#33f;
+  border:none;
+  position:relative;
+  background-color:transparent;
+  background-repeat:no-repeat !important;
+  background-position:100% 100% !important;
+  text-decoration: none;
+}
+#wm-ipp #wm-capinfo {
+  
+  border-radius: 0 0 4px 4px;
+}
+#wm-ipp #wm-capinfo .c-logo {
+  display:block;
+  float:left;
+  margin-right:3px;
+  width:90px;
+  min-height:90px;
+  max-height: 290px;
+  border-radius:45px;
+  overflow:hidden;
+  background-position:50%;
+  background-size:auto 90px;
+  box-shadow: 0 0 2px 2px rgba(208,208,208,128) inset;
+}
+#wm-ipp #wm-capinfo .c-logo span {
+  display:inline-block;
+}
+#wm-ipp #wm-capinfo .c-logo img {
+  height:90px;
+  position:relative;
+  left:-50%;
+}
+#wm-ipp #wm-capinfo .wm-title {
+  font-size:130%;
+}
+#wm-ipp #wm-capinfo a.wm-selector {
+  display:inline-block;
+  color: #aaa;
+  text-decoration:none !important;
+  padding: 2px 8px;
+}
+#wm-ipp #wm-capinfo a.wm-selector.selected {
+  background-color:#666;
+}
+#wm-ipp #wm-capinfo a.wm-selector:hover {
+  color: #fff;
+}
+#wm-ipp #wm-capinfo.notice-only #wm-capinfo-collected-by,
+#wm-ipp #wm-capinfo.notice-only #wm-capinfo-timestamps {
+    display: none;
+}
+#wm-ipp #wm-capinfo #wm-capinfo-notice .wm-capinfo-content {
+    background-color:#ff0;
+    padding:5px;
+    font-size:14px;
+    text-align:center;
+}
+#wm-ipp #wm-capinfo #wm-capinfo-notice .wm-capinfo-content * {
+    font-size:14px;
+    text-align:center;
+}
+#wm-ipp #wm-expand {
+  right: 1px;
+  bottom: -1px;
+  color: #ffffff;
+  background-color: #666 !important;
+  padding:0 5px 0 3px !important;
+  border-radius: 3px 3px 0 0 !important;
+}
+#wm-ipp #wm-expand span {
+  color: #ffffff;
+}
+#wm-ipp #wm-expand #wm-expand-icon {
+  display: inline-block;
+  transition: transform 0.5s;
+  transform-origin: 50% 45%;
+}
+#wm-ipp #wm-expand.wm-open #wm-expand-icon {
+  transform: rotate(180deg);
+}
+#wm-ipp #wmtb {
+  text-align:right;
+}
+#wm-ipp #wmtb #wmtbURL {
+  width: calc(100% - 45px);
+}
+#wm-ipp #wm-graph-anchor {
+  border-right:1px solid #ccc;
+}
+
+html.wb-highlight {
+  box-shadow: inset 0 0 0 3px #a50e3a !important;
+}    
+.wb-highlight {
+  outline: 3px solid #a50e3a !important;
+}
+#wm-ipp-print {
+  display:none !important;
+}
+@media print {
+#wm-ipp-base {
+  display:none !important;
+}
+#wm-ipp-print {
+  display:block !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+}
+@media (max-width:414px) {
+    #wm-ipp .xxs {
+	display:none !important;
+    }
+}
+@media (min-width:1055px) {
+#wm-ipp #wm-graph-anchor {
+  display:block !important;
+}
+}
+@media (max-width:1054px) {
+#wm-ipp #wm-graph-anchor {
+  display:none !important;
+}
+}
+@media (max-width:1163px) {
+#wm-logo {
+    display:none !important;
+}
+}
+
+#wm-btns {
+    white-space: nowrap;
+    margin-top: -2px;
+}
+
+#wm-btns #wm-save-snapshot-open {
+  margin-right: 7px;
+  top: -6px;
+}
+
+#wm-btns #wm-sign-in {
+  box-sizing: content-box;
+  display: none;
+  margin-right: 7px;
+  top: -8px;
+
+  
+  border: 2px #000 solid;
+  border-radius: 14px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  width: 11px;
+  height: 11px;
+}
+
+#wm-btns #wm-sign-in>.iconochive-person {
+  font-size: 12.5px;
+}
+
+#wm-save-snapshot-open > .iconochive-web {
+  color:#000;
+  font-size:160%;
+}
+
+#wm-ipp #wm-share {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#wm-share > #wm-screenshot {
+  display: inline-block;
+  margin-right: 3px;
+  visibility: hidden;
+}
+
+#wm-screenshot > .iconochive-image {
+  color:#000;
+  font-size:160%;
+}
+
+#wm-share > #wm-video {
+  display: inline-block;
+  margin-right: 3px;
+  visibility: hidden;
+}
+
+#wm-video > .iconochive-movies {
+  color: #000;
+  display: inline-block;
+  font-size: 150%;
+  margin-bottom: 2px;
+}
+
+#wm-btns #wm-save-snapshot-in-progress {
+  display: none;
+  font-size:160%;
+  opacity: 0.5;
+  position: relative;
+  margin-right: 7px;
+  top: -5px;
+}
+
+#wm-btns #wm-save-snapshot-success {
+  display: none;
+  color: green;
+  position: relative;
+  top: -7px;
+}
+
+#wm-btns #wm-save-snapshot-fail {
+  display: none;
+  color: red;
+  position: relative;
+  top: -7px;
+}
+
+.wm-icon-screen-shot {
+  background: url('https://web-static.archive.org/_static/images/web-screenshot.svg') no-repeat !important;
+  background-size: contain !important;
+  width: 22px !important;
+  height: 19px !important;
+
+  display: inline-block;
+}
+#donato {
+    
+    
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #999 !important;
+}
+body.wm-modal {
+    height: auto !important;
+    overflow: hidden !important;
+}
+#donato #donato-base {
+    width: 100%;
+    height: 100%;
+    
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 2147483639;
+}
+body.wm-modal #donato #donato-base {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2147483640;
+}
+
+.wb-autocomplete-suggestions {
+    font-family: Lucida Grande, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    text-align: left;
+    cursor: default;
+    border: 1px solid #ccc;
+    border-top: 0;
+    background: #fff;
+    box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+    position: absolute;
+    display: none;
+    z-index: 2147483647;
+    max-height: 254px;
+    overflow: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.wb-autocomplete-suggestion {
+    position: relative;
+    padding: 0 .6em;
+    line-height: 23px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.02em;
+    color: #333;
+}
+.wb-autocomplete-suggestion b {
+    font-weight: bold;
+}
+.wb-autocomplete-suggestion.selected {
+    background: #f0f0f0;
+}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" type="text/css" href="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/iconochive.css"><style class="darkreader darkreader--cors" media="screen">[class^="iconochive-"],[class*=" iconochive-"]{font-family:'Iconochive-Regular'!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.iconochive-Uplevel:before{content:"\21b5"}
+.iconochive-exit:before{content:"\1f6a3"}
+.iconochive-beta:before{content:"\3b2"}
+.iconochive-logo:before{content:"\1f3db"}
+.iconochive-audio:before{content:"\1f568"}
+.iconochive-movies:before{content:"\1f39e"}
+.iconochive-software:before{content:"\1f4be"}
+.iconochive-texts:before{content:"\1f56e"}
+.iconochive-etree:before{content:"\1f3a4"}
+.iconochive-image:before{content:"\1f5bc"}
+.iconochive-web:before{content:"\1f5d4"}
+.iconochive-collection:before{content:"\2211"}
+.iconochive-folder:before{content:"\1f4c2"}
+.iconochive-data:before{content:"\1f5c3"}
+.iconochive-tv:before{content:"\1f4fa"}
+.iconochive-article:before{content:"\1f5cf"}
+.iconochive-question:before{content:"\2370"}
+.iconochive-question-dark:before{content:"\3f"}
+.iconochive-info:before{content:"\69"}
+.iconochive-info-small:before{content:"\24d8"}
+.iconochive-comment:before{content:"\1f5e9"}
+.iconochive-comments:before{content:"\1f5ea"}
+.iconochive-person:before{content:"\1f464"}
+.iconochive-people:before{content:"\1f465"}
+.iconochive-eye:before{content:"\1f441"}
+.iconochive-rss:before{content:"\221e"}
+.iconochive-time:before{content:"\1f551"}
+.iconochive-quote:before{content:"\275d"}
+.iconochive-disc:before{content:"\1f4bf"}
+.iconochive-tv-commercial:before{content:"\1f4b0"}
+.iconochive-search:before{content:"\1f50d"}
+.iconochive-search-star:before{content:"\273d"}
+.iconochive-tiles:before{content:"\229e"}
+.iconochive-list:before{content:"\21f6"}
+.iconochive-list-bulleted:before{content:"\2317"}
+.iconochive-latest:before{content:"\2208"}
+.iconochive-left:before{content:"\2c2"}
+.iconochive-right:before{content:"\2c3"}
+.iconochive-left-solid:before{content:"\25c2"}
+.iconochive-right-solid:before{content:"\25b8"}
+.iconochive-up-solid:before{content:"\25b4"}
+.iconochive-down-solid:before{content:"\25be"}
+.iconochive-dot:before{content:"\23e4"}
+.iconochive-dots:before{content:"\25a6"}
+.iconochive-columns:before{content:"\25af"}
+.iconochive-sort:before{content:"\21d5"}
+.iconochive-atoz:before{content:"\1f524"}
+.iconochive-ztoa:before{content:"\1f525"}
+.iconochive-upload:before{content:"\1f4e4"}
+.iconochive-download:before{content:"\1f4e5"}
+.iconochive-favorite:before{content:"\2605"}
+.iconochive-heart:before{content:"\2665"}
+.iconochive-play:before{content:"\25b6"}
+.iconochive-play-framed:before{content:"\1f3ac"}
+.iconochive-fullscreen:before{content:"\26f6"}
+.iconochive-mute:before{content:"\1f507"}
+.iconochive-unmute:before{content:"\1f50a"}
+.iconochive-share:before{content:"\1f381"}
+.iconochive-edit:before{content:"\270e"}
+.iconochive-reedit:before{content:"\2710"}
+.iconochive-gear:before{content:"\2699"}
+.iconochive-remove-circle:before{content:"\274e"}
+.iconochive-plus-circle:before{content:"\1f5d6"}
+.iconochive-minus-circle:before{content:"\1f5d5"}
+.iconochive-x:before{content:"\1f5d9"}
+.iconochive-fork:before{content:"\22d4"}
+.iconochive-trash:before{content:"\1f5d1"}
+.iconochive-warning:before{content:"\26a0"}
+.iconochive-flash:before{content:"\1f5f2"}
+.iconochive-world:before{content:"\1f5fa"}
+.iconochive-lock:before{content:"\1f512"}
+.iconochive-unlock:before{content:"\1f513"}
+.iconochive-twitter:before{content:"\1f426"}
+.iconochive-facebook:before{content:"\66"}
+.iconochive-googleplus:before{content:"\67"}
+.iconochive-reddit:before{content:"\1f47d"}
+.iconochive-tumblr:before{content:"\54"}
+.iconochive-pinterest:before{content:"\1d4df"}
+.iconochive-popcorn:before{content:"\1f4a5"}
+.iconochive-email:before{content:"\1f4e7"}
+.iconochive-embed:before{content:"\1f517"}
+.iconochive-gamepad:before{content:"\1f579"}
+.iconochive-Zoom_In:before{content:"\2b"}
+.iconochive-Zoom_Out:before{content:"\2d"}
+.iconochive-RSS:before{content:"\1f4e8"}
+.iconochive-Light_Bulb:before{content:"\1f4a1"}
+.iconochive-Add:before{content:"\2295"}
+.iconochive-Tab_Activity:before{content:"\2318"}
+.iconochive-Forward:before{content:"\23e9"}
+.iconochive-Backward:before{content:"\23ea"}
+.iconochive-No_Audio:before{content:"\1f508"}
+.iconochive-Pause:before{content:"\23f8"}
+.iconochive-No_Favorite:before{content:"\2606"}
+.iconochive-Unike:before{content:"\2661"}
+.iconochive-Song:before{content:"\266b"}
+.iconochive-No_Flag:before{content:"\2690"}
+.iconochive-Flag:before{content:"\2691"}
+.iconochive-Done:before{content:"\2713"}
+.iconochive-Check:before{content:"\2714"}
+.iconochive-Refresh:before{content:"\27f3"}
+.iconochive-Headphones:before{content:"\1f3a7"}
+.iconochive-Chart:before{content:"\1f4c8"}
+.iconochive-Bookmark:before{content:"\1f4d1"}
+.iconochive-Documents:before{content:"\1f4da"}
+.iconochive-Newspaper:before{content:"\1f4f0"}
+.iconochive-Podcast:before{content:"\1f4f6"}
+.iconochive-Radio:before{content:"\1f4fb"}
+.iconochive-Cassette:before{content:"\1f4fc"}
+.iconochive-Shuffle:before{content:"\1f500"}
+.iconochive-Loop:before{content:"\1f501"}
+.iconochive-Low_Audio:before{content:"\1f509"}
+.iconochive-First:before{content:"\1f396"}
+.iconochive-Invisible:before{content:"\1f576"}
+.iconochive-Computer:before{content:"\1f5b3"}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<!-- End Wayback Rewrite JS Include -->
+
+    <title>GameInternals - Understanding Pac-Man Ghost Behavior</title>
+    <link rel="stylesheet" href="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/styles.css"><style class="darkreader darkreader--sync" media="screen"></style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script>__wm.rw(0);</script>
+<div id="wm-ipp-base" lang="en" style="display: block; direction: ltr; height: 67px;" toolbar-mode="auto">
+</div><div id="wm-ipp-print">The Wayback Machine - https://web.archive.org/web/20250117155542/https://gameinternals.com/understanding-pac-man-ghost-behavior</div>
+<script type="text/javascript">//<![CDATA[
+__wm.bt(750,27,25,2,"web","https://gameinternals.com/understanding-pac-man-ghost-behavior","20250117155542",1996,"https://web-static.archive.org/_static/",["https://web-static.archive.org/_static/css/banner-styles.css?v=1B2M2Y8A","https://web-static.archive.org/_static/css/iconochive.css?v=1B2M2Y8A"], false);
+  __wm.rw(1);
+//]]></script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+ 
+<div id="wrapper">
+
+<div id="header">
+    <div id="title"><a href="https://web.archive.org/web/20250117155542/https://gameinternals.com/">Game<span style="color: rgb(255, 255, 255); --darkreader-inline-color: var(--darkreader-text-ffffff, #e8e6e3);" data-darkreader-inline-color="">Internals</span></a></div>
+    <div id="subtitle">All theory, no practice</div>
+    <div id="description">
+        <p>GameInternals aims to spread knowledge of interesting game 
+mechanics beyond the game-specific enthusiast communities. Each post 
+focuses on a specific game mechanic that would normally only be known to
+ high-level players of a particular game, and attempts to explain it in a
+ manner that would be understandable even by readers unfamiliar with 
+that game.</p>
+        <p style="color: rgb(196, 196, 196); --darkreader-inline-color: var(--darkreader-text-c4c4c4, #c3beb6);" data-darkreader-inline-color="">GameInternals articles were researched and written by <a href="https://web.archive.org/web/20250117155542/mailto:chad@tildes.net">Chad Birch</a>, a gamer and programmer from Calgary, Alberta, Canada.</p>
+    </div>
+</div>
+
+<div class="post">
+
+<h1><a href="https://web.archive.org/web/20250117155542/https://gameinternals.com/understanding-pac-man-ghost-behavior">Understanding Pac-Man Ghost Behavior</a></h1>
+<div class="post_date">Posted on December 2, 2010</div>
+
+<p>It only seems right for me to begin this blog with the topic that 
+inspired me to start it in the first place. Not too long ago, I came 
+across <a href="https://web.archive.org/web/20250117155542/https://www.gamasutra.com/view/feature/132330/the_pacman_dossier.php" target="_blank">Jamey Pittman's "Pac-Man Dossier"</a>,
+ which is a ridiculously-detailed explanation of the mechanics of 
+Pac-Man. I found it absolutely fascinating, so this site is my attempt 
+to discover and aggregate similarly-detailed information about other 
+games (albeit in much smaller chunks). However, as a bit of a tribute, 
+I'm going to start with Pac-Man as well, specifically the ghost AI. It's
+ an interesting topic, and hopefully my explanation will be a bit more 
+accessible than Jamey's, due to focusing on only the information 
+relevant to ghost behavior.</p>
+
+<h2>About the Game</h2>
+
+<blockquote><div>
+    "All the computer games available at the time were of the violent 
+type - war games and space invader types. There were no games that 
+everyone could enjoy, and especially none for women. I wanted to come up
+ with a "comical" game women could enjoy."
+    <div class="quote-source">- Toru Iwatani, Pac-Man creator</div>
+</div></blockquote>
+
+<p>Pac-Man is one of the most iconic video games of all time, and most 
+people (even non-gamers) have at least a passing familiarity with it. 
+The purpose of the game is very simple — the player is placed in a maze 
+filled with food (depicted as pellets or dots) and needs to eat all of 
+it to advance to the next level. This task is made difficult by four 
+ghosts that pursue Pac-Man through the maze. If Pac-Man makes contact 
+with any of the ghosts, the player loses a life and the positions of 
+Pac-Man and the ghosts are reset back to their starting locations, 
+though any dots that were eaten remain so. Other than simply avoiding 
+them, Pac-Man's only defense against the ghosts are the four larger 
+"energizer" pellets located at the corners of the maze. Eating one 
+causes the ghosts to become frightened and retreat for a short time, and
+ in the early levels of the game Pac-Man can even eat the ghosts for 
+bonus points during this period. An eaten ghost is not completely 
+eliminated, but is returned to its starting position before resuming its
+ pursuit. Other than eating dots and ghosts, the only other source of 
+points are the two pieces of fruit which appear during each level near 
+the middle of the maze. The first fruit appears when Pac-Man has eaten 
+70 of the dots in the maze, and the second when 170 have been eaten.</p>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/initial-playfield.png" alt="Initial playfield layout">
+
+<p>Every level of Pac-Man uses the same maze layout, containing 240 
+regular "food" dots and 4 energizers. The tunnels that lead off of the 
+left and right edges of the screen act as shortcuts to the opposite side
+ of the screen, and are usable by both Pac-Man and the ghosts, though 
+the ghosts' speed is greatly reduced while they are in the tunnel. Even 
+though the layout is always the same, the levels become increasingly 
+difficult due to modifications to Pac-Man's speed, as well as changes to
+ both the speed and behavior of the ghosts. After reaching level 21, no 
+further changes to the game's mechanics are made, and every level from 
+21 onwards is effectively identical.</p>
+
+<h2>Common Elements of Ghost Behaviour</h2>
+
+<blockquote><div>
+    "Well, there's not much entertainment in a game of eating, so we 
+decided to create enemies to inject a little excitement and tension. The
+ player had to fight the enemies to get the food. And each of the 
+enemies has its own character. The enemies are four little ghost-shaped 
+monsters, each of them a different colour - blue, yellow, pink and red. I
+ used four different colours mostly to please the women who play - I 
+thought they would like the pretty colours."
+    <div class="quote-source">- Toru Iwatani, Pac-Man creator</div>
+</div></blockquote>
+
+<p>Each of the ghosts is programmed with an individual "personality", a 
+different algorithm it uses to determine its method of moving through 
+the maze. Understanding how each ghost behaves is extremely important to
+ be able to effectively avoid them. However, before discussing their 
+individual behaviors, let's first examine the logic that they share.</p>
+
+<h3>The Ghost House</h3>
+
+<p>When a player begins a game of Pac-Man, they are not immediately 
+attacked by all four of the ghosts. As shown on the diagram of the 
+initial game position, only one ghost begins in the actual maze, while 
+the others are inside a small area in the middle of the maze, often 
+referred to as the "ghost house". Other than at the beginning of a 
+level, the ghosts will only return to this area if they are eaten by an 
+energized Pac-Man, or as a result of their positions being reset when 
+Pac-Man dies. The ghost house is otherwise inaccessible, and is not a 
+valid area for Pac-Man or the ghosts to move into. Ghosts always move to
+ the left as soon as they leave the ghost house, but they may reverse 
+direction almost immediately due to an effect that will be described 
+later.</p>
+
+<p>The conditions that determine when the three ghosts that start inside
+ the ghost house are able to leave it are actually fairly complex. 
+Because of this, I'm going to consider them outside the scope of this 
+article, especially since they become much less relevant after 
+completing the first few levels. If you're interested in reading about 
+these rules (and an interesting exploit of them), the Pac-Man Dossier <a href="https://web.archive.org/web/20250117155542/https://www.gamasutra.com/view/feature/132330/the_pacman_dossier.php?page=4" target="_blank">covers them in-depth (under the "Home Sweet Home" heading)</a>, as always.</p>
+
+<h3>Target Tiles</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/tiled-playfield.png" alt="Playfield split into tiles">
+
+<p>Much of Pac-Man's design and mechanics revolve around the idea of the
+ board being split into tiles. "Tile" in this context refers to an 8 x 8
+ pixel square on the screen. Pac-Man's screen resolution is 224 x 288, 
+so this gives us a total board size of 28 x 36 tiles, though most of 
+these are not accessible to Pac-Man or the ghosts. As an example of the 
+impact of tiles, a ghost is considered to have caught Pac-Man when it 
+occupies the same tile as him. In addition, every pellet in the maze is 
+in the center of its own tile. It should be noted that since the sprites
+ for Pac-Man and the ghosts are larger than one tile in size, they are 
+never completely contained in a single tile. Due to this, for the game's
+ purposes, the character is considered to occupy whichever tile contains
+ its <em>center point</em>. This is important knowledge when avoiding 
+ghosts, since Pac-Man will only be caught if a ghost manages to move its
+ center point into the same tile as Pac-Man's.</p>
+
+<p>The key to understanding ghost behavior is the concept of a target 
+tile. The large majority of the time, each ghost has a specific tile 
+that it is trying to reach, and its behavior revolves around trying to 
+get to that tile from its current one. All of the ghosts use identical 
+methods to travel towards their targets, but the different ghost 
+personalities come about due to the individual way each ghost has of 
+selecting its target tile. Note that there are no restrictions that a 
+target tile must actually be possible to reach, they can (and often are)
+ located on an inaccessible tile, and many of the common ghost behaviors
+ are a direct result of this possibility. Target tiles will be discussed
+ in more detail in upcoming sections, but for now just keep in mind that
+ the ghosts are almost always motivated by trying to reach a particular 
+tile.</p>
+
+<h3>Ghost Movement Modes</h3>
+
+<p>The ghosts are always in one of three possible modes: Chase, Scatter,
+ or Frightened. The "normal" mode with the ghosts pursuing Pac-Man is 
+Chase, and this is the one that they spend most of their time in. While 
+in Chase mode, all of the ghosts use Pac-Man's position as a factor in 
+selecting their target tile, though it is more significant to some 
+ghosts than others. In Scatter mode, each ghost has a fixed target tile,
+ each of which is located just outside a different corner of the maze. 
+This causes the four ghosts to disperse to the corners whenever they are
+ in this mode. Frightened mode is unique because the ghosts do not have a
+ specific target tile while in this mode. Instead, they <a href="https://web.archive.org/web/20250117155542/https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandomly</a>
+ decide which turns to make at every intersection. A ghost in Frightened
+ mode also turns dark blue, moves much more slowly and can be eaten by 
+Pac-Man. However, the duration of Frightened mode is shortened as the 
+player progresses through the levels, and is completely eliminated from 
+level 19 onwards.</p>
+
+<blockquote><div>
+    "To give the game some tension, I wanted the monsters to surround 
+Pac Man at some stage of the game. But I felt it would be too stressful 
+for a human being like Pac Man to be continually surrounded and hunted 
+down. So I created the monsters' invasions to come in waves. They'd 
+attack and then they'd retreat. As time went by they would regroup, 
+attack, and disperse again. It seemed more natural than having constant 
+attack."
+    <div class="quote-source">- Toru Iwatani, Pac-Man creator</div>
+</div></blockquote>
+
+<p>Changes between Chase and Scatter modes occur on a fixed timer, which
+ causes the "wave" effect described by Iwatani. This timer is reset at 
+the beginning of each level and whenever a life is lost. The timer is 
+also paused while the ghosts are in Frightened mode, which occurs 
+whenever Pac-Man eats an energizer. When Frightened mode ends, the 
+ghosts return to their previous mode, and the timer resumes where it 
+left off. The ghosts start out in Scatter mode, and there are four waves
+ of Scatter/Chase alternation defined, after which the ghosts will 
+remain in Chase mode indefinitely (until the timer is reset). For the 
+first level, the durations of these phases are:</p>
+
+<ol>
+    <li>Scatter for 7 seconds, then Chase for 20 seconds.</li>
+    <li>Scatter for 7 seconds, then Chase for 20 seconds.</li>
+    <li>Scatter for 5 seconds, then Chase for 20 seconds.</li>
+    <li>Scatter for 5 seconds, then switch to Chase mode permanently.</li>
+</ol>
+
+<p>The durations of these phases are changed somewhat when the player 
+reaches level 2, and once again when they reach level 5. Starting on 
+level 2, the third Chase mode lengthens considerably, to 1033 seconds 
+(17 minutes and 13 seconds), and the following Scatter mode lasts just 
+1/60 of a second before the ghosts proceed to their permanent Chase 
+mode. The level 5 changes build on top of this, additionally reducing 
+the first two Scatter lengths to 5 seconds, and adding the 4 seconds 
+gained here to the third Chase mode, lengthening it to 1037 seconds 
+(17:17). Regarding the 1/60-of-a-second Scatter mode on every level 
+except the first, even though it may seem that switching modes for such 
+an insignificant amount of time is pointless, there is a reason behind 
+it, which shall be revealed shortly.</p>
+
+<h3>Basic Ghost Movement Rules</h3>
+
+<p>The next step is understanding exactly <em>how</em> the ghosts 
+attempt to reach their target tiles. The ghosts' AI is very simple and 
+short-sighted, which makes the complex behavior of the ghosts even more 
+impressive. Ghosts only ever plan one step into the future as they move 
+about the maze. Whenever a ghost enters a new tile, it looks ahead to 
+the next tile that it will reach, and makes a decision about which 
+direction it will turn when it gets there. These decisions have one very
+ important restriction, which is that ghosts may never choose to reverse
+ their direction of travel. That is, a ghost cannot enter a tile from 
+the left side and then decide to reverse direction and move back to the 
+left. The implication of this restriction is that whenever a ghost 
+enters a tile with only two exits, it will always continue in the same 
+direction.</p>
+
+<p>However, there is one exception to this rule, which is that whenever 
+ghosts change from Chase or Scatter to any other mode, they are <em>forced</em>
+ to reverse direction as soon as they enter the next tile. This forced 
+instruction will overwrite whatever decision the ghosts had previously 
+made about the direction to move when they reach that tile. This 
+effectively acts as a notifier to the player that the ghosts have 
+changed modes, since it is the only time a ghost can possibly reverse 
+direction. Note that when the ghosts leave Frightened mode they do not 
+change direction, but this particular switch is already obvious due to 
+the ghosts reverting to their regular colors from the dark blue of 
+Frightened. So then, the 1/60-of-a-second Scatter mode on every level 
+after the first will cause all the ghosts to reverse their direction of 
+travel, even though their target effectively remains the same. This 
+forced direction-reversal instruction is also applied to any ghosts 
+still inside the ghost house, so a ghost that hasn't yet entered the 
+maze by the time the first mode switch occurs will exit the ghost house 
+with a "reverse direction as soon as you can" instruction already 
+pending. This causes them to move left as usual for a very short time, 
+but they will almost immediately reverse direction and go to the right 
+instead.</p>
+
+<img class="center" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/intersection-map.png" alt="Simplified map showing intersection tiles">
+
+<p>The diagram above shows a simplified representation of the maze 
+layout. Decisions are only necessary at all when approaching 
+"intersection" tiles, which are indicated in green on the diagram.</p>
+
+<img class="left" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/decision.png" alt="A ghost making a decision">
+
+<p>When a decision about which direction to turn is necessary, the 
+choice is made based on which tile adjoining the intersection will put 
+the ghost nearest to its target tile, measured in a straight line. The 
+distance from every possibility to the target tile is measured, and 
+whichever tile is closest to the target will be selected. In the diagram
+ to the left, the ghost will turn upwards at the intersection. If two or
+ more potential choices are an equal distance from the target, the 
+decision between them is made in the order of up &gt; left &gt; down. A 
+decision to exit right can never be made in a situation where two tiles 
+are equidistant to the target, since any other option has a higher 
+priority.</p>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/bad-decision.png" alt="A ghost making the wrong decision">
+
+<p>Since the only consideration is which tile will immediately place the
+ ghost closer to its target, this can result in the ghosts selecting the
+ "wrong" turn when the initial choice places them closer, but the 
+overall path is longer. An example is shown to the right, where 
+straight-line measurement makes exiting left appear to be a better 
+choice. However, this will result in an overall path length of 26 tiles 
+to reach the target, when exiting right would have had a path only 8 
+tiles long.</p>
+
+<p>One final special case to be aware of are the four intersections that
+ were colored yellow on the simplified maze diagram. These specific 
+intersections have an extra restriction — ghosts can not choose to turn 
+upwards from these tiles. If entering them from the right or left side 
+they will always proceed out the opposite side (excepting a forced 
+direction-reversal). Note that this restriction does not apply to 
+Frightened mode, and Frightened ghosts may turn upwards here if that 
+decision occurs randomly. A ghost entering these tiles from the top can 
+also reverse direction back out the top if a mode switch occurs as they 
+are entering the tile, the restriction is only applied during "regular" 
+decision-making. If Pac-Man is being pursued closely by ghosts, he can 
+gain some ground on them by making an upwards turn in one of these 
+intersections, since they will be forced to take a longer route around.</p>
+
+<h2>Individual Ghost Personalities</h2>
+
+<blockquote><div>
+    "This is the heart of the game. I wanted each ghostly enemy to have a
+ specific character and its own particular movements, so they weren't 
+all just chasing after Pac Man in single file, which would have been 
+tiresome and flat."
+    <div class="quote-source">- Toru Iwatani, Pac-Man creator</div>
+</div></blockquote>
+
+<img class="center" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/ghost-names.png" alt="The ghosts and their names in English and Japanese">
+
+<p>As has been previously mentioned, the only differences between the 
+ghosts are their methods of selecting target tiles in Chase and Scatter 
+modes. The only official description of each ghost's personality comes 
+from the one-word "character" description shown in the game's attract 
+mode. We'll first take a look at how the ghosts behave in Scatter mode, 
+since it's extremely straightforward, and then look at each ghost's 
+approach to targeting in Chase mode.</p>
+
+<h3>Scatter Mode</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/scatter-targets.png" alt="The ghosts' Scatter mode targets">
+
+<p>Each ghost has a pre-defined, fixed target tile while in this mode, 
+located just outside the corners of the maze. When Scatter mode begins, 
+each ghost will head towards their "home" corner using their regular 
+path-finding methods. However, since the actual target tiles are 
+inaccessible and the ghosts cannot stop moving or reverse direction, 
+they are forced to continue past the target, but will turn back towards 
+it as soon as possible. This results in each ghost's path eventually 
+becoming a fixed loop in their corner. If left in Scatter mode, each 
+ghost would remain in its loop indefinitely. In practice, the duration 
+of Scatter mode is always quite short, so the ghosts often do not have 
+time to even reach their corner or complete a circuit of their loop 
+before reverting back to Chase mode. The diagram shows each ghost's 
+target tile and eventual looping path, color-coded to match their own 
+color.</p>
+
+<h3>The Red Ghost</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/blinky-targeting.png" alt="The red ghost's targeting method">
+
+<p>The red ghost starts outside of the ghost house, and is usually the 
+first one to be seen as a threat, since he makes a beeline for Pac-Man 
+almost immediately. He is referred to as "Blinky", and the game 
+describes his personality as <em>shadow</em>. In Japanese, his personality is referred to as &#36861;&#12356;&#12363;&#12369;, <em>oikake</em>,
+ which translates as "pursuer" or "chaser". Both languages' descriptions
+ are accurate, since Blinky's target tile in Chase mode is defined as 
+Pac-Man's current tile. This ensures that Blinky almost always follows 
+directly behind Pac-Man, unless the short-sighted decision-making causes
+ him to take an inefficient path.</p>
+
+<p>Even though Blinky's targeting method is very simple, he does have 
+one idiosyncrasy that the other ghosts do not; at two defined points in 
+each level (based on the number of dots remaining), his speed increases 
+by 5% and his behavior in Scatter mode changes. The timing of the speed 
+change varies based on the level, with the change occurring earlier and 
+earlier as the player progresses. The change to Scatter targeting is 
+perhaps more significant than the speed increases, since it causes 
+Blinky's target tile to remain as Pac-Man's position even while in 
+Scatter mode, instead of his regular fixed tile in the upper-right 
+corner. This effectively keeps Blinky in Chase mode permanently, though 
+he will still be forced to reverse direction as a result of a mode 
+switch. When in this enhanced state, Blinky is generally referred to as 
+"Cruise Elroy", though the origin of this term seems to be unknown. Not 
+even the almighty Pac-Man Dossier has an answer here. If Pac-Man dies 
+while Blinky is in Cruise Elroy mode, he reverts back to normal behavior
+ temporarily, but returns to Elroy mode as soon as all other ghosts have
+ exited the ghost house.</p>
+
+<h3>The Pink Ghost</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/pinky-targeting.png" alt="The pink ghost's targeting method">
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/pinky-targeting2.png" alt="The pink ghost's targeting error when Pac-Man faces upwards">
+
+<p>The pink ghost starts inside the ghost house, but always exits 
+immediately, even in the first level. His nickname is "Pinky", and his 
+personality is described as <em>speedy</em>. This is a considerable departure from his Japanese personality description, which is &#24453;&#12385;&#20239;&#12379;, <em>machibuse</em>,
+ which translates as "ambusher". The Japanese version is much more 
+appropriate, since Pinky does not move faster than any of the other 
+ghosts (and slower than Blinky in Cruise Elroy mode), but his targeting 
+scheme attempts to move him to the place where Pac-Man is going, instead
+ of where he currently is. Pinky's target tile in Chase mode is 
+determined by looking at Pac-Man's current position and orientation, and
+ selecting the location four tiles straight ahead of Pac-Man. At least, 
+this was the intention, and it works when Pac-Man is facing to the left,
+ down, or right, but when Pac-Man is facing upwards, an <a href="https://web.archive.org/web/20250117155542/https://en.wikipedia.org/wiki/Integer_overflow" target="_blank">overflow error</a> in the game's code causes Pinky's target tile to actually be set as four tiles ahead of Pac-Man <em>and</em>
+ four tiles to the left of him. I don't want to frighten off 
+non-programmers, but if you're interested in the technical details 
+behind this bug, <a href="https://web.archive.org/web/20250117155542/http://donhodges.com/pacman_pinky_explanation.htm" target="_blank">Don Hodges has written a great explanation</a>, including the actual assembly code for Pinky's targeting, as well as a fixed version.</p>
+
+<img class="left" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/pinky-chicken.png" alt="Causing the pink ghost's target tile to be behind him">
+
+<p>One important implication of Pinky's targeting method is that Pac-Man
+ can often win a game of "chicken" with him. Since his target tile is 
+set four tiles in front of Pac-Man, if Pac-Man heads directly towards 
+him, Pinky's target tile will actually be <em>behind</em> himself once 
+they are less than four tiles apart. This will cause Pinky to choose to 
+take any available turn-off in order to loop back around to his target. 
+Because of this, it is a common strategy to momentarily "fake" back 
+towards Pinky if he starts following closely. This will often send him 
+off in an entirely different direction.</p>
+
+<h3>The Blue Ghost</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/inky-targeting.png" alt="The blue ghost's targeting method">
+
+<p>The blue ghost is nicknamed Inky, and remains inside the ghost house 
+for a short time on the first level, not joining the chase until Pac-Man
+ has managed to consume at least 30 of the dots. His English personality
+ description is <em>bashful</em>, while in Japanese he is referred to as &#27671;&#32027;&#12428;, <em>kimagure</em>,
+ or "whimsical". Inky is difficult to predict, because he is the only 
+one of the ghosts that uses a factor other than Pac-Man's 
+position/orientation when determining his target tile. Inky actually 
+uses both Pac-Man's position/facing as well as Blinky's (the red 
+ghost's) position in his calculation. To locate Inky's target, we first 
+start by selecting the position two tiles in front of Pac-Man in his 
+current direction of travel, similar to Pinky's targeting method. From 
+there, imagine drawing a vector from Blinky's position to this tile, and
+ then doubling the length of the vector. The tile that this new, 
+extended vector ends on will be Inky's actual target.</p>
+
+<p>As a result, Inky's target can vary wildly when Blinky is not near 
+Pac-Man, but if Blinky is in close pursuit, Inky generally will be as 
+well. Note that Inky's "two tiles in front of Pac-Man" calculation 
+suffers from exactly the same overflow error as Pinky's four-tile 
+equivalent, so if Pac-Man is heading upwards, the endpoint of the 
+initial vector from Blinky (before doubling) will actually be two tiles 
+up and two tiles left of Pac-Man.</p>
+
+<h3>The Orange Ghost</h3>
+
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/clyde-targeting2.png" alt="The orange ghost's distant targeting method">
+<img class="right" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/clyde-targeting.png" alt="The orange ghost's nearby targeting method">
+
+<p>The orange ghost, "Clyde", is the last to leave the ghost house, and 
+does not exit at all in the first level until over a third of the dots 
+have been eaten. Clyde's English personality description is <em>pokey</em>, whereas the Japanese description is &#12362;&#24794;&#12369;, <em>otoboke</em>
+ or "feigning ignorance". As is typical, the Japanese version is more 
+accurate, since Clyde's targeting method can give the impression that he
+ is just "doing his own thing", without concerning himself with Pac-Man 
+at all. The unique feature of Clyde's targeting is that it has two 
+separate modes which he constantly switches back and forth between, 
+based on his proximity to Pac-Man. Whenever Clyde needs to determine his
+ target tile, he first calculates his distance from Pac-Man. If he is <em>farther</em>
+ than eight tiles away, his targeting is identical to Blinky's, using 
+Pac-Man's current tile as his target. However, as soon as his distance 
+to Pac-Man becomes <em>less</em> than eight tiles, Clyde's target is set
+ to the same tile as his fixed one in Scatter mode, just outside the 
+bottom-left corner of the maze.</p>
+
+<img class="center" src="GameInternals%20-%20Understanding%20Pac-Man%20Ghost%20Behavior_files/clyde-targeting3.png" alt="The orange ghost's targeting mode switching">
+
+<p>The combination of these two methods has the overall effect of Clyde 
+alternating between coming directly towards Pac-Man, and then changing 
+his mind and heading back to his corner whenever he gets too close. On 
+the diagram above, the X marks on the path represent the points where 
+Clyde's mode switches. If Pac-Man somehow managed to remain stationary 
+in that position, Clyde would indefinitely loop around that T-shaped 
+area. As long as the player is not in the lower-left corner of the maze,
+ Clyde can be avoided completely by simply ensuring that you do not 
+block his "escape route" back to his corner. While Pac-Man is within 
+eight tiles of the lower-left corner, Clyde's path will end up in 
+exactly the same loop as he would eventually maintain in Scatter mode.</p>
+
+<h2>Wrapping Up</h2>
+
+<p>If you've made it this far, you should now have a fairly complete 
+understanding of the logic behind Pac-Man's ghost movement. 
+Understanding the ghosts' behavior is probably the single most important
+ step towards becoming a skilled Pac-Man player, and even a general idea
+ of where they are likely to move next should greatly improve your 
+abilities. I've never been good at Pac-Man, but while I was researching 
+this article and testing a few things, I found that I was able to avoid 
+the ghosts much more easily than before. Even small things make a huge 
+difference, such as recognizing a switch to Scatter mode and knowing 
+that you have a few seconds where the ghosts won't (deliberately) try to
+ kill you.</p>
+
+<p>Pac-Man is an amazing example of seemingly-complex behavior arising 
+from only a few cleverly-designed rules, with the result being a deep 
+and challenging game that players still strive to master, 30 years after
+ its release.</p>
+
+<h2>Sources</h2>
+
+<ul>
+    <li><a href="https://web.archive.org/web/20250117155542/https://www.gamasutra.com/view/feature/132330/the_pacman_dossier.php" target="_blank">The Pac-Man Dossier</a>,
+ Jamey Pittman - practically the only source you need for anything 
+related to Pac-Man. I did some original research to confirm a few 
+statements here and there, but honestly, most of this article is just 
+rearranged and reworded from Jamey's amazing work on the Dossier. Highly
+ recommended reading if you enjoyed this article and would like to learn
+ about the other aspects of the game.</li>
+    <li><a href="https://web.archive.org/web/20250117155542/http://donhodges.com/pacman_pinky_explanation.htm" target="_blank">Pac-Man's Ghost Behaviour Analyzed and Fixed</a>, Don Hodges - explanation of Pinky and Inky's targeting bug and some of the relevant Z80 assembly code.</li>
+    <li>All Toru Iwatani quotes come from an interview in <em>Programmers at Work</em> by Susan M. Lammers. <a href="https://web.archive.org/web/20250117155542/https://programmersatwork.wordpress.com/toru-iwatani-1986-pacman-designer/">The entire interview is available online here</a>.</li>
+</ul>
+
+</div>
+
+<div id="footer">
+    <a href="https://web.archive.org/web/20250117155542/https://gameinternals.com/">Back to home page</a>
+</div>
+
+</div>
+
+
+</body></html>
+<!--
+     FILE ARCHIVED ON 15:55:42 Jan 17, 2025 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 01:16:01 Aug 10, 2025.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 0.823
+  exclusion.robots: 0.038
+  exclusion.robots.policy: 0.023
+  esindex: 0.014
+  cdx.remote: 343.192
+  LoadShardBlock: 144.005 (3)
+  PetaboxLoader3.datanode: 76.626 (4)
+  PetaboxLoader3.resolve: 151.03 (2)
+  load_resource: 191.729
+-->

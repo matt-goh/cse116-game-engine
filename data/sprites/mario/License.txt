@@ -1,0 +1,7 @@
+This isn't a real license.
+
+These sprite sheets were downloaded from "https://www.mariomayhem.com/downloads/sprites/super_mario_bros_sprites.php",
+and further modified for easy use within the game engine.
+
+According to the images themselves, at least some of the sprites were created/ripped/edited by
+Zeon (metalichotdog@hotmail.com) and Beam Luinsir Yosho (?)

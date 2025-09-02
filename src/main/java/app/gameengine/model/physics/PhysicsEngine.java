@@ -1,54 +1,104 @@
 package app.gameengine.model.physics;
 
-import app.gameengine.model.gameobjects.DynamicGameObject;
-import app.gameengine.Level;
-import app.gameengine.model.gameobjects.StaticGameObject;
-
 import java.util.ArrayList;
 
+import app.gameengine.Level;
+import app.gameengine.model.gameobjects.DynamicGameObject;
+import app.gameengine.model.gameobjects.StaticGameObject;
+
+/**
+ * Physics engine for handling collision detection and resolution within a game.
+ * <p>
+ * This class is meant to be the used when updating objects to apply physics and
+ * object interactions. Whenever objects collide, that should be observed and
+ * handled from here.
+ * 
+ * @see Collidable
+ * @see DynamicGameObject
+ * @see StaticGameObject
+ * @see Level
+ */
 public class PhysicsEngine {
 
-    public PhysicsEngine() {}
-
-    public void updateLevel(Level level, double dt) {
-
-        // Update the location of each dynamic object based on its velocity
-        for(DynamicGameObject dynamicObject : level.getDynamicObjects()){
-            updateObject(dynamicObject, dt);
+    /**
+     * Update the physics for an entire level. This means updating each dynamic
+     * object according to its velocity, and handling all collisions within the
+     * level.
+     * 
+     * @param dt    the time elapsed since the last update, in seconds
+     * @param level the level being updated
+     */
+    public void updateLevel(double dt, Level level) {
+        for (DynamicGameObject gameObject : level.getDynamicObjects()) {
+            updateObject(dt, gameObject);
         }
-
-        // detect all collisions for each dynamic object
-        for (int i = 0; i < level.getDynamicObjects().size(); i++) {
-            DynamicGameObject dynamicObject1 = level.getDynamicObjects().get(i);
-
-            // check for collisions with other dynamic objects
-            // start at i+1 to avoid reporting collision multiple times
-            for (int j = i+1; j < level.getDynamicObjects().size(); j++) {
-                DynamicGameObject dynamicObject2 = level.getDynamicObjects().get(j);
-                if(detectCollision(dynamicObject1.getHitBox(), dynamicObject2.getHitBox())){
-                    dynamicObject1.collideWithDynamicObject(dynamicObject2);
-                    dynamicObject2.collideWithDynamicObject(dynamicObject1);
-                }
-            }
-
-            // check for collisions with static objects
-            for(StaticGameObject so : level.getStaticObjects()){
-                if(detectCollision(so.getHitBox(), dynamicObject1.getHitBox())){
-                    so.collideWithDynamicObject(dynamicObject1);
-                    dynamicObject1.collideWithStaticObject(so);
-                }
-            }
-        }
-
+        processAllCollisions(level);
     }
 
-    public void updateObject(DynamicGameObject dynamicObject, double dt){
-        // TODO: update location based on velocity
+    /**
+     * Update a single dynamic object according to its velocity.
+     * 
+     * @param dt     the time elapsed since the last update, in seconds
+     * @param object the object being updated
+     */
+    public void updateObject(double dt, DynamicGameObject object) {
+        
     }
 
-    public boolean detectCollision(Hitbox hb1, Hitbox hb2){
+    /**
+     * Detect whether a collision between two hitboxes has occurred. A collision is
+     * defined as the two hitboxes having an overlapping distance of strictly
+     * greater than 0.
+     * 
+     * @param hitbox1 the first hitbox
+     * @param hitbox2 the second hitbox
+     * @return {@code true} if a collision is occurring, {@code false} otherwise
+     */
+    public boolean detectCollision(Hitbox hitbox1, Hitbox hitbox2) {
         return false;
-        // TODO: return true if the 2 hitboxes overlap; false otherwise
+    }
+
+    /**
+     * Returns the minimum overlapping distance of two hitboxes. If the hitboxes are
+     * colliding, this distance should be greater than 0. Otherwise, they are not
+     * colliding.
+     * 
+     * @param hitbox1 the first hitbox
+     * @param hitbox2 the second hitbox
+     * @return the minimum overlapping distance
+     */
+    public double getOverlap(Hitbox hitbox1, Hitbox hitbox2) {
+        return 0.0;
+    }
+
+    /**
+     * Process all collisions within a level. This means that for each dynamic
+     * object, detect which other dynamic or static objects it is colliding with,
+     * and defer collision behavior to the respective objects.
+     * 
+     * @param level the level being updated
+     */
+    public void processAllCollisions(Level level) {
+        ArrayList<DynamicGameObject> dynamicObjects = level.getDynamicObjects();
+        ArrayList<StaticGameObject> staticObjects = level.getStaticObjects();
+
+        for (int i = 0; i < dynamicObjects.size(); i++) {
+            DynamicGameObject object1 = dynamicObjects.get(i);
+            for (int j = i + 1; j < dynamicObjects.size(); j++) {
+                DynamicGameObject object2 = dynamicObjects.get(j);
+                if (detectCollision(object1.getHitbox(), object2.getHitbox())) {
+                    object1.collideWithDynamicObject(object2);
+                    object2.collideWithDynamicObject(object1);
+                }
+            }
+            for (int j = 0; j < staticObjects.size(); j++) {
+                StaticGameObject staticObject = staticObjects.get(j);
+                if (detectCollision(object1.getHitbox(), staticObject.getHitbox())) {
+                    staticObject.collideWithDynamicObject(object1);
+                    object1.collideWithStaticObject(staticObject);
+                }
+            }
+        }
     }
 
 }

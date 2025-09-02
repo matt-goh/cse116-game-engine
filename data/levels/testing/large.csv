@@ -1,0 +1,43 @@
+TopDownLevel,bigLevel,200,300
+PlayerStartLocation,6.12,5.54
+BackgroundTile,MiniWorldSprites/Animals/Boar.png,0,0
+StaticGameObject,Wall,3,32
+StaticGameObject,Wall,22,44
+StaticGameObject,Wall,39,32
+StaticGameObject,Wall,25,21
+StaticGameObject,Wall,55,24
+StaticGameObject,Wall,55,40
+StaticGameObject,Wall,41,23
+StaticGameObject,Wall,45,6
+StaticGameObject,Wall,63,7
+StaticGameObject,Wall,69,23
+StaticGameObject,Wall,47,34
+StaticGameObject,Wall,17,35
+StaticGameObject,Wall,32,23
+StaticGameObject,Wall,25,4
+StaticGameObject,Wall,14,19
+StaticGameObject,Goal,49,19
+StaticGameObject,Goal,27,37
+StaticGameObject,Goal,14,28
+StaticGameObject,Goal,12,43
+StaticGameObject,Goal,49,46
+StaticGameObject,Goal,66,36
+StaticGameObject,InfoNode,38,43,Testing message
+StaticGameObject,InfoNode,70,27,Testing message1
+StaticGameObject,InfoNode,61,22,Testing message2
+StaticGameObject,InfoNode,19,50,Testing message3
+StaticGameObject,InfoNode,23,26,Testing message4
+DynamicGameObject,Demon,23,95,25,3
+DynamicGameObject,Demon,26,98,10,12
+DynamicGameObject,Demon,74,101,6,18
+DynamicGameObject,Demon,76,93,4,6
+DynamicGameObject,Demon,50,106,10000,1
+DynamicGameObject,Demon,79,45,102,35
+DynamicGameObject,Tower,53,32
+DynamicGameObject,Tower,84,16
+DynamicGameObject,Tower,85,17
+DynamicGameObject,Tower,85,34
+DynamicGameObject,Tower,84,35
+DynamicGameObject,Tower,83,37
+DynamicGameObject,Tower,83,38
+DynamicGameObject,Tower,80,41

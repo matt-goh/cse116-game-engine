@@ -1,0 +1,7 @@
+TopDownLevel,badLevel,50,42
+PlayerStartLocation,2,2
+BackgroundTile,MiniWorldSprites/Ground/Grass.png,2,0
+StaticGameObject,Wall,4,3
+DynamicGameObject,Demon,1,1,40,5
+StaticGameObject,ThisDoesntExist,14,4
+DynamicGameObject,ThisDoesntExist,6,2

@@ -1,38 +1,86 @@
 package app;
 
+import app.display.common.controller.KeyboardControls;
+import app.games.GameFactory;
+
 /**
- * This class provides all the configuration necessary for the game
+ * Static class containing properties which will not change at runtime.
+ * <p>
+ * The static variables defined in this class determine certain properties of
+ * the game, including the game being played, the default sprite size and zoom
+ * factor, whether integer scaling is enabled, and the default animation
+ * duration. Unlike {@link Configuration}, these variables are final and will
+ * not change at runtime.
+ * <p>
+ * Note that most of these values are only defaults, and games/levels/objects
+ * may override these values with their own in many cases.
+ * 
+ * @see Settings
+ * @see GameFactory
  */
 public class Configuration {
 
     /**
-     * game is used in `GameFactory.java` to launch the game. If you wanted to
-     * create a different style of game, you would change this string and update
-     * the switch statement in `GameFactory.java`
+     * The game being played. Must be a valid option within the factory method
+     * {@link GameFactory#getGame}.
      */
-    public static final String game = "sample top down game";
+    public static final String GAME = "Snake";
 
     /**
-     * Sprite size in pixels
+     * Multiplier for increasing the size of the window and objects within the game.
+     * If {@link #INTEGER_SCALE} is enabled, this should be a whole number for best
+     * results.
      */
-    public static final int spriteSize = 16;
+    public static final double ZOOM = 3.0;
 
     /**
-     * How big you want the game window to be.
-     *
-     * You should use a whole number for the best results, otherwise the game
-     * won't be pixel perfect.
+     * Default sprite size, in pixels, of objects within the game. This can be
+     * overridden if the object is smaller or larger in a given dimension.
      */
-    public static final double zoom = 3.0;
+    public static final int SPRITE_SIZE = 16;
 
     /**
-     * Set to true for a sharper image
+     * Scale factor from game space to screen space. Calculated based off of
+     * {@link #SPRITE_SIZE} and {@link #ZOOM}, and only included for convenience.
      */
-    public static final boolean integerScale = true;
+    public static final double SCALE_FACTOR = SPRITE_SIZE * ZOOM;
 
     /**
-     * Time in seconds to spend on each frame of animation
+     * Default size for text elements within the game. If a size is not specified
+     * when retrieving a font, this is the value that is used.
      */
-    public static final double animationTime = 0.1;
+    public static final double DEFAULT_TEXT_SIZE = ZOOM * 5;
+
+    /**
+     * Whether integer scaling is applied to rendered sprites in the game. This
+     * should be enabled, as the engine is pretty much untested with it disabled,
+     * and tends to have graphical bugs. Disabling it does, however, allow for
+     * non-integer {@code #ZOOM} levels.
+     */
+    public static final boolean INTEGER_SCALE = true; // true for sharper image
+
+    /**
+     * Default duration of animation frames, in seconds. This can be overridden if
+     * specific objects have different animation times.
+     */
+    public static final double ANIMATION_TIME = 0.1;
+
+    /**
+     * Default volume for music tracks within the game. If the volume is not
+     * specified when starting music, this volume will be used.
+     */
+    public static final double DEFAULT_MUSIC_VOLUME = 0.5;
+
+    /**
+     * Default volume for sound effects within the game. If the volume is not
+     * specified when playiny a sound effect, this volume will be used.
+     */
+    public static final double DEFAULT_SOUND_VOLUME = 0.5;
+
+    /**
+     * If true, enables certain controls that are useful for debugging while playing
+     * the game. Primarily used/controlled by {@link KeyboardControls}.
+     */
+    public static final boolean DEBUG_MODE = true;
 
 }
