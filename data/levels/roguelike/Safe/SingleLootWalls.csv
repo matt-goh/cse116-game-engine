@@ -1,4 +1,4 @@
-TopDownLevel,SingleLootWalls,13,9
+RoguelikeLevel,SingleLootWalls,13,9
 PlayerStartLocation,0,0
 BackgroundTile,dungeon/environment/MainDungeon.png,1,1
 StaticGameObject,DirectionalWall,0,0

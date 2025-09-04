@@ -1,4 +1,4 @@
-TopDownLevel,LargeDanger,17,15
+RoguelikeLevel,LargeDanger,17,15
 PlayerStartLocation,0,0
 BackgroundTile,dungeon/environment/MainDungeon.png,1,1
 StaticGameObject,DirectionalWall,0,0

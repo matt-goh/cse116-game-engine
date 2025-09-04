@@ -1,4 +1,4 @@
-TopDownLevel,MazeLoot,13,9
+RoguelikeLevel,MazeLoot,13,9
 PlayerStartLocation,10,7
 BackgroundTile,dungeon/environment/MainDungeon.png,1,1
 StaticGameObject,DirectionalWall,0,0
