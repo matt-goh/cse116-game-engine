@@ -270,8 +270,10 @@ public abstract class Game {
      */
     public void pause() {
         Settings.setPaused(true);
-        this.getUICollection().removeElement("pause");
-        this.getUICollection().addElement("pause", new PauseMenu(this));
+        if (this.UI != null) {
+            this.UI.removeElement("pause");
+            this.UI.addElement("pause", new PauseMenu(this));
+        }
     }
 
     /**
@@ -280,7 +282,9 @@ public abstract class Game {
      */
     public void unpause() {
         Settings.setPaused(false);
-        this.getUICollection().removeElement("pause");
+        if (this.UI != null) {
+            this.UI.removeElement("pause");
+        }
     }
 
     /**

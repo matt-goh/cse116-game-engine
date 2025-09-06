@@ -58,14 +58,18 @@ public class PacmanGame extends Game {
     @Override
     public void pause() {
         Settings.setPaused(true);
-        this.fgUI.getChildren().clear();
-        this.fgUI.getChildren().add(new PauseMenu(this).getRenderable());
+        if (this.fgUI != null) {
+            this.fgUI.getChildren().clear();
+            this.fgUI.getChildren().add(new PauseMenu(this).getRenderable());
+        }
     }
 
     @Override
     public void unpause() {
         Settings.setPaused(false);
-        this.fgUI.getChildren().clear();
+        if (this.fgUI != null) {
+            this.fgUI.getChildren().clear();
+        }
     }
 
     @Override
