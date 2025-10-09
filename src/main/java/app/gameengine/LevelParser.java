@@ -1,8 +1,14 @@
 package app.gameengine;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import app.display.common.Background;
+import app.display.minesweeper.MinesweeperGame;
 import app.gameengine.model.gameobjects.DynamicGameObject;
 import app.gameengine.model.gameobjects.StaticGameObject;
 import app.games.commonobjects.Goal;
@@ -16,17 +22,91 @@ import app.games.topdownobjects.Tower;
  * Static class for creating levels from formatted csv files.
  */
 public class LevelParser {
-
     /**
      * Parse the csv file at the given location within the levels directory, and
      * return the level which that file represents.
-     * 
+     *
      * @param game the game the level will be part of
      * @param path the path within the levels directory to the level
      * @return the parsed level
      */
     public static Level parseLevel(Game game, String path) {
-        return new TopDownLevel(game, 20, 20, "BlankLevel");
+        // construct the complete file path
+        String fullPath = "data/levels/" + path;
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(fullPath));
+
+            // initialize the level variable
+            TopDownLevel level = null;
+
+            // loop through each line from the file
+            for (String line : lines) {
+                String[] parts = line.split(",");
+                String type = parts[0]; // the first part of the line determines the action
+
+                // use a switch statement to handle different types of lines
+                switch (type) {
+                    case "TopDownLevel":
+                        // "LevelType=TopDownLevel,LevelName,Width,Height"
+                        String levelName = parts[1];
+                        int width = Integer.parseInt(parts[2]);
+                        int height = Integer.parseInt(parts[3]);
+                        // create the level object
+                        level = new TopDownLevel(game, width, height, levelName);
+                        break;
+
+                    case "PlayerStartLocation":
+                        // PlayerStartLocation,XLocation,YLocation
+                        if (level != null) {
+                            double x = Double.parseDouble(parts[1]);
+                            double y = Double.parseDouble(parts[2]);
+                            level.setPlayerStartLocation(x, y);
+                        }
+                        break;
+
+                    case "BackgroundImage":
+                    case "BackgroundTile":
+                        if (level != null) {
+                            // The readBackground method takes an ArrayList of Strings, and will return a Background object
+                            // Use the Level.setBackground method to set the background of that level
+                            ArrayList<String> partsList = new ArrayList<>(Arrays.asList(parts));
+                            Background background = readBackground(partsList);
+                            level.setBackground(background);
+                        }
+                        break;
+
+                    case "StaticGameObject":
+                        if (level != null) {
+                            ArrayList<String> partsList = new ArrayList<>(Arrays.asList(parts));
+                            StaticGameObject staticObject = readStaticObject(game, level, partsList);
+                            // Note that if readDynamicObject or readStaticObject cannot parse the line correctly, they will return null.
+                            // In this case, you should not add it to the level.
+                            if (staticObject != null) {
+                                level.getStaticObjects().add(staticObject);
+                            }
+                        }
+                        break;
+
+                    case "DynamicGameObject":
+                        if (level != null) {
+                            ArrayList<String> partsList = new ArrayList<>(Arrays.asList(parts));
+                            DynamicGameObject dynamicObj = readDynamicObject(game, level, partsList);
+                            // Note that if readDynamicObject or readStaticObject cannot parse the line correctly, they will return null.
+                            // In this case, you should not add it to the level.
+                            if (dynamicObj != null) {
+                                level.getDynamicObjects().add(dynamicObj);
+                            }
+                        }
+                        break;
+                }
+            }
+
+            // return the configured level
+            return level;
+
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -43,7 +123,7 @@ public class LevelParser {
      * string specifying the filepath of that tile sprite sheet within the sprites
      * directory and two ints for the column and row within that sprite sheet, in
      * that order.
-     * 
+     *
      * @param split the split line from the csv file describing the object
      * @return the background that is described by {@code split}
      */
@@ -67,7 +147,7 @@ public class LevelParser {
      * <p>
      * Where SubType is the name of the class, x and y are the location of the
      * object, and any following items are additional constructor parameters.
-     * 
+     *
      * @param game  the game this object will be a member of
      * @param level the level this object will be a member of
      * @param split the split line from the csv file describing the object
@@ -96,7 +176,7 @@ public class LevelParser {
      * <p>
      * Where SubType is the name of the class, x and y are the location of the
      * object, and any following items are additional constructor parameters.
-     * 
+     *
      * @param game  the game this object will be a member of
      * @param level the level this object will be a member of
      * @param split the split line from the csv file describing the object

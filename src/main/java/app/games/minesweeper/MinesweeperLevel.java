@@ -11,14 +11,11 @@ import app.gameengine.model.gameobjects.StaticGameObject;
 import app.gameengine.model.physics.PhysicsEngine;
 import app.gameengine.model.physics.Vector2D;
 import app.gameengine.statistics.GameStat;
+import app.gameengine.utils.GameUtils;
 import app.gameengine.utils.Randomizer;
 import app.games.minesweeper.CoverTile.TileState;
 
 public class MinesweeperLevel extends Level {
-
-    public enum GameState {
-        WIN, LOSE, PLAYING, CLICK
-    }
 
     private HashMap<Vector2D, CoverTile> hiddenTiles = new HashMap<>();
     private HashMap<Vector2D, Bomb> bombs = new HashMap<>();
@@ -77,12 +74,48 @@ public class MinesweeperLevel extends Level {
     /**
      * Returns a list of vectors horizontally and diagonally adjacent to the input
      * vector.
-     * 
+     *
      * @param v the central vector
      * @return a list of adjacent vectors
      */
     public ArrayList<Vector2D> getAdjacentVectors(Vector2D v) {
-        return new ArrayList<>();
+        // create the list that we will return at the end
+        ArrayList<Vector2D> surroundingVectors = new ArrayList<>();
+
+        // check if vector input "v" is in the board. if not, return the empty list
+        if (!GameUtils.isInBounds(this, v)) {
+            return surroundingVectors;
+        }
+
+        // get xy coordinates of the center tile
+        double xPoint = v.getX();
+        double yPoint = v.getY();
+
+        // use offsets to check all the surrounding tiles:
+        // [-1,-1], [-1,0], [-1,1]
+        // [0,-1], skip [0,0], [0,1]
+        // [1,-1], [1,0], [1,1]
+        for (int xOffset = -1; xOffset <= 1; xOffset++) {
+            for (int yOffset = -1; yOffset <= 1; yOffset++) {
+
+                // skip the center tile
+                if (xOffset == 0 && yOffset == 0) {
+                    continue;
+                }
+
+                // add up the offsets
+                double adjacentTileX = xPoint + xOffset;
+                double adjacentTileY = yPoint + yOffset;
+                Vector2D adjacentTile = new Vector2D(adjacentTileX, adjacentTileY);
+
+                // final check
+                if (GameUtils.isInBounds(this, adjacentTile)) {
+                    surroundingVectors.add(adjacentTile);
+                }
+            }
+        }
+
+        return surroundingVectors;
     }
 
     public HashMap<Vector2D, CoverTile> getHiddenTiles() {
@@ -217,6 +250,10 @@ public class MinesweeperLevel extends Level {
                 this.hiddenTiles.get(location).setState(TileState.QUESTION);
             }
         }
+    }
+
+    public enum GameState {
+        WIN, LOSE, PLAYING, CLICK
     }
 
 }
