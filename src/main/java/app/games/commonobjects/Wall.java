@@ -29,36 +29,56 @@ public class Wall extends StaticGameObject {
             return;
         }
 
-        double wallRight = wallHitbox.getLocation().getX() + wallHitbox.getDimensions().getX();
-        double wallBottom = wallHitbox.getLocation().getY() + wallHitbox.getDimensions().getY();
-        double otherRight = otherHitbox.getLocation().getX() + otherHitbox.getDimensions().getX();
-        double otherBottom = otherHitbox.getLocation().getY() + otherHitbox.getDimensions().getY();
+        // Wall edges
+        double wallLeft = wallHitbox.getLocation().getX();
+        double wallRight = wallLeft + wallHitbox.getDimensions().getX();
+        double wallTop = wallHitbox.getLocation().getY();
+        double wallBottom = wallTop + wallHitbox.getDimensions().getY();
 
-        double xOverlap = Math.min(wallRight, otherRight) - Math.max(wallHitbox.getLocation().getX(), otherHitbox.getLocation().getX());
-        double yOverlap = Math.min(wallBottom, otherBottom) - Math.max(wallHitbox.getLocation().getY(), otherHitbox.getLocation().getY());
+        // Other object's hitbox edges
+        double otherLeft = otherHitbox.getLocation().getX();
+        double otherRight = otherLeft + otherHitbox.getDimensions().getX();
+        double otherTop = otherHitbox.getLocation().getY();
+        double otherBottom = otherTop + otherHitbox.getDimensions().getY();
+
+        // Calculate minimum push distances to clear the overlap from each side
+        double pushRightDist = wallRight - otherLeft;
+        double pushLeftDist = otherRight - wallLeft;
+        double pushDownDist = wallBottom - otherTop;
+        double pushUpDist = otherBottom - wallTop;
+
+        // Find the minimum of the four possible push distances
+        double minPush = pushRightDist;
+
+        if (pushLeftDist < minPush) {
+            minPush = pushLeftDist;
+        }
+        if (pushDownDist < minPush) {
+            minPush = pushDownDist;
+        }
+        if (pushUpDist < minPush) {
+            minPush = pushUpDist;
+        }
 
         Vector2D otherLocation = otherObject.getLocation();
 
-        if (xOverlap < yOverlap) {
-            // Horizontal Resolution
-            if (otherHitbox.getLocation().getX() + otherHitbox.getDimensions().getX() / 2 < wallHitbox.getLocation().getX() + wallHitbox.getDimensions().getX() / 2) {
-                // Push left
-                otherObject.setLocation(otherLocation.getX() - xOverlap, otherLocation.getY());
-            } else {
-                // Push right
-                otherObject.setLocation(otherLocation.getX() + xOverlap, otherLocation.getY());
-            }
-            otherObject.getVelocity().setX(0);
-        } else {
-            // Vertical Resolution
-            if (otherHitbox.getLocation().getY() + otherHitbox.getDimensions().getY() / 2 < wallHitbox.getLocation().getY() + wallHitbox.getDimensions().getY() / 2) {
-                // Push up
-                otherObject.setLocation(otherLocation.getX(), otherLocation.getY() - yOverlap);
-            } else {
-                // Push down
-                otherObject.setLocation(otherLocation.getX(), otherLocation.getY() + yOverlap);
-            }
+        // Apply the push in the direction of minimum distance
+        if (minPush == pushUpDist) {
+            // Push Up
+            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() - pushUpDist);
             otherObject.getVelocity().setY(0);
+        } else if (minPush == pushDownDist) {
+            // Push Down
+            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() + pushDownDist);
+            otherObject.getVelocity().setY(0);
+        } else if (minPush == pushLeftDist) {
+            // Push Left
+            otherObject.setLocation(otherLocation.getX() - pushLeftDist, otherLocation.getY());
+            otherObject.getVelocity().setX(0);
+        } else { // minPush == pushRightDist
+            // Push Right
+            otherObject.setLocation(otherLocation.getX() + pushRightDist, otherLocation.getY());
+            otherObject.getVelocity().setX(0);
         }
     }
 
