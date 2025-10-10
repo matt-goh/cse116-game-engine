@@ -105,15 +105,21 @@ public class PhysicsEngine {
             return 0.0;
         }
 
-        double h1Right = hitbox1.getLocation().getX() + hitbox1.getDimensions().getX();
-        double h1Bottom = hitbox1.getLocation().getY() + hitbox1.getDimensions().getY();
-        double h2Right = hitbox2.getLocation().getX() + hitbox2.getDimensions().getX();
-        double h2Bottom = hitbox2.getLocation().getY() + hitbox2.getDimensions().getY();
+        double h1Left = hitbox1.getLocation().getX();
+        double h1Right = h1Left + hitbox1.getDimensions().getX();
+        double h1Top = hitbox1.getLocation().getY();
+        double h1Bottom = h1Top + hitbox1.getDimensions().getY();
 
-        double xOverlap = Math.min(h1Right, h2Right) - Math.max(hitbox1.getLocation().getX(), hitbox2.getLocation().getX());
-        double yOverlap = Math.min(h1Bottom, h2Bottom) - Math.max(hitbox1.getLocation().getY(), hitbox2.getLocation().getY());
+        double h2Left = hitbox2.getLocation().getX();
+        double h2Right = h2Left + hitbox2.getDimensions().getX();
+        double h2Top = hitbox2.getLocation().getY();
+        double h2Bottom = h2Top + hitbox2.getDimensions().getY();
 
-        return Math.min(xOverlap, yOverlap);
+        // Calculate minimum distance to separate in each direction
+        double xSeparation = Math.min(h1Right - h2Left, h2Right - h1Left);
+        double ySeparation = Math.min(h1Bottom - h2Top, h2Bottom - h1Top);
+
+        return Math.min(xSeparation, ySeparation);
     }
 
     /**
