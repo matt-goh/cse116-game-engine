@@ -42,7 +42,20 @@ public class PhysicsEngine {
      * @param object the object being updated
      */
     public void updateObject(double dt, DynamicGameObject object) {
-        
+        // Get the current location and velocity
+        Vector2D currentLocation = object.getLocation();
+        Vector2D velocity = object.getVelocity();
+
+        // Calculate the change in position (delta = velocity * time)
+        double deltaX = velocity.getX() * dt;
+        double deltaY = velocity.getY() * dt;
+
+        // Calculate the new location
+        double newX = currentLocation.getX() + deltaX;
+        double newY = currentLocation.getY() + deltaY;
+
+        // Set the object's new location using the correct method signature
+        object.setLocation(newX, newY);
     }
 
     /**
@@ -55,7 +68,27 @@ public class PhysicsEngine {
      * @return {@code true} if a collision is occurring, {@code false} otherwise
      */
     public boolean detectCollision(Hitbox hitbox1, Hitbox hitbox2) {
-        return false;
+        // Get the position and dimensions of the first hitbox
+        double h1x = hitbox1.getLocation().getX();
+        double h1y = hitbox1.getLocation().getY();
+        double h1w = hitbox1.getDimensions().getX();
+        double h1h = hitbox1.getDimensions().getY();
+
+        // Get the position and dimensions of the second hitbox
+        double h2x = hitbox2.getLocation().getX();
+        double h2y = hitbox2.getLocation().getY();
+        double h2w = hitbox2.getDimensions().getX();
+        double h2h = hitbox2.getDimensions().getY();
+
+        // Check for non-collision (AABB collision detection).
+        // If any of these are true, they CANNOT be colliding.
+        boolean noOverlap = (h1x + h1w <= h2x) || // h1 is completely to the left of h2
+                (h1x >= h2x + h2w) || // h1 is completely to the right of h2
+                (h1y + h1h <= h2y) || // h1 is completely above h2
+                (h1y >= h2y + h2h);   // h1 is completely below h2
+
+        // If there isn't a "no overlap" condition, they must be colliding.
+        return !noOverlap;
     }
 
     /**
@@ -68,7 +101,19 @@ public class PhysicsEngine {
      * @return the minimum overlapping distance
      */
     public double getOverlap(Hitbox hitbox1, Hitbox hitbox2) {
-        return 0.0;
+        if (!detectCollision(hitbox1, hitbox2)) {
+            return 0.0;
+        }
+
+        double h1Right = hitbox1.getLocation().getX() + hitbox1.getDimensions().getX();
+        double h1Bottom = hitbox1.getLocation().getY() + hitbox1.getDimensions().getY();
+        double h2Right = hitbox2.getLocation().getX() + hitbox2.getDimensions().getX();
+        double h2Bottom = hitbox2.getLocation().getY() + hitbox2.getDimensions().getY();
+
+        double xOverlap = Math.min(h1Right, h2Right) - Math.max(hitbox1.getLocation().getX(), hitbox2.getLocation().getX());
+        double yOverlap = Math.min(h1Bottom, h2Bottom) - Math.max(hitbox1.getLocation().getY(), hitbox2.getLocation().getY());
+
+        return Math.min(xOverlap, yOverlap);
     }
 
     /**
@@ -91,8 +136,7 @@ public class PhysicsEngine {
                     object2.collideWithDynamicObject(object1);
                 }
             }
-            for (int j = 0; j < staticObjects.size(); j++) {
-                StaticGameObject staticObject = staticObjects.get(j);
+            for (StaticGameObject staticObject : staticObjects) {
                 if (detectCollision(object1.getHitbox(), staticObject.getHitbox())) {
                     staticObject.collideWithDynamicObject(object1);
                     object1.collideWithStaticObject(staticObject);
