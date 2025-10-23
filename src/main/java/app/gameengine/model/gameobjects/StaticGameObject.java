@@ -29,10 +29,10 @@ public abstract class StaticGameObject extends GameObject {
         super(x, y);
     }
 
-    @Override
-    public void setLocation(double x, double y) {
-        // StaticGameObject cannot move
-    }
+//    @Override
+//    public void setLocation(double x, double y) {
+//        // StaticGameObject cannot move
+//    }
 
     @Override
     public boolean isSolid() {

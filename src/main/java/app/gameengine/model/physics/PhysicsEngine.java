@@ -46,7 +46,7 @@ public class PhysicsEngine {
         Vector2D currentLocation = object.getLocation();
         Vector2D velocity = object.getVelocity();
 
-        // Calculate the change in position (delta = velocity * time)
+        // Calculate the product of that direction's velocity and the change in time
         double deltaX = velocity.getX() * dt;
         double deltaY = velocity.getY() * dt;
 
@@ -54,7 +54,6 @@ public class PhysicsEngine {
         double newX = currentLocation.getX() + deltaX;
         double newY = currentLocation.getY() + deltaY;
 
-        // Set the object's new location using the correct method signature
         object.setLocation(newX, newY);
     }
 
@@ -80,14 +79,13 @@ public class PhysicsEngine {
         double h2w = hitbox2.getDimensions().getX();
         double h2h = hitbox2.getDimensions().getY();
 
-        // Check for non-collision (AABB collision detection).
-        // If any of these are true, they CANNOT be colliding.
+        // If any of these are true, they are not colliding
         boolean noOverlap = (h1x + h1w <= h2x) || // h1 is completely to the left of h2
                 (h1x >= h2x + h2w) || // h1 is completely to the right of h2
                 (h1y + h1h <= h2y) || // h1 is completely above h2
                 (h1y >= h2y + h2h);   // h1 is completely below h2
 
-        // If there isn't a "no overlap" condition, they must be colliding.
+        // If there isn't a "no overlap" condition, they must be colliding
         return !noOverlap;
     }
 
@@ -142,7 +140,8 @@ public class PhysicsEngine {
                     object2.collideWithDynamicObject(object1);
                 }
             }
-            for (StaticGameObject staticObject : staticObjects) {
+            for (int j = 0; j < staticObjects.size(); j++) {
+                StaticGameObject staticObject = staticObjects.get(j);
                 if (detectCollision(object1.getHitbox(), staticObject.getHitbox())) {
                     staticObject.collideWithDynamicObject(object1);
                     object1.collideWithStaticObject(staticObject);

@@ -1,13 +1,12 @@
 package app.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import app.games.snake.SnakeGame;
+import app.games.snake.SnakeLevel;
 import org.junit.Test;
 
 import app.gameengine.model.gameobjects.Player;
@@ -17,6 +16,7 @@ import app.gameengine.model.physics.Vector2D;
 import app.games.commonobjects.Wall;
 import app.games.topdownobjects.Demon;
 import javafx.util.Pair;
+import static org.junit.Assert.*;
 
 public class TestTask1 {
 
@@ -402,5 +402,160 @@ public class TestTask1 {
                 || new Vector2D(1.0, 2.0).equals(demon.getLocation())
                 || new Vector2D(0.0, 1.0).equals(demon.getLocation()));
     }
-    
+
+    @Test
+    public void testUpdateObject() {
+        PhysicsEngine engine = new PhysicsEngine();
+        Player player = new Player(10, 20, 100);
+        player.setVelocity(5, -2);
+
+        Player expectedPlayer = new Player(10, 20, 100);
+        expectedPlayer.setVelocity(5, -2);
+        expectedPlayer.setLocation(10 + 5 * 0.5, 20 + (-2 * 0.5));
+
+        engine.updateObject(0.5, player);
+
+        TestUtils.comparePlayers(expectedPlayer, player);
+    }
+
+    @Test
+    public void testDetectCollision() {
+        PhysicsEngine engine = new PhysicsEngine();
+
+        // Overlapping
+        Hitbox h1 = new Hitbox(new Vector2D(0, 0), new Vector2D(2, 2));
+        Hitbox h2 = new Hitbox(new Vector2D(1, 1), new Vector2D(2, 2));
+        assertTrue(engine.detectCollision(h1, h2));
+
+        // Touching edges
+        Hitbox h3 = new Hitbox(new Vector2D(0, 0), new Vector2D(1, 1));
+        Hitbox h4 = new Hitbox(new Vector2D(1, 0), new Vector2D(1, 1));
+        assertFalse(engine.detectCollision(h3, h4));
+
+        // Not overlapping
+        Hitbox h5 = new Hitbox(new Vector2D(0, 0), new Vector2D(1, 1));
+        Hitbox h6 = new Hitbox(new Vector2D(5, 5), new Vector2D(1, 1));
+        assertFalse(engine.detectCollision(h5, h6));
+
+        // One inside another
+        Hitbox h7 = new Hitbox(new Vector2D(0, 0), new Vector2D(5, 5));
+        Hitbox h8 = new Hitbox(new Vector2D(1, 1), new Vector2D(1, 1));
+        assertTrue(engine.detectCollision(h7, h8));
+    }
+
+    @Test
+    public void testUpdateObjectWithZeroVelocity() {
+        PhysicsEngine engine = new PhysicsEngine();
+
+        // Test 1: Zero velocity, should not move
+        Player player1 = new Player(10, 20, 100);
+        player1.setVelocity(0, 0);
+        Player expected1 = new Player(10, 20, 100);
+        expected1.setVelocity(0, 0);
+        expected1.setLocation(10, 20);
+
+        engine.updateObject(0.5, player1);
+        TestUtils.comparePlayers(expected1, player1);
+
+        // Test 2: Zero velocity with different dt
+        Player player2 = new Player(5.5, 3.2, 100);
+        player2.setVelocity(0, 0);
+        Player expected2 = new Player(5.5, 3.2, 100);
+        expected2.setVelocity(0, 0);
+        expected2.setLocation(5.5, 3.2);
+
+        engine.updateObject(1.0, player2);
+        TestUtils.comparePlayers(expected2, player2);
+
+        // Test 3: Zero X velocity only
+        Player player3 = new Player(0, 0, 100);
+        player3.setVelocity(0, 5);
+        Player expected3 = new Player(0, 0, 100);
+        expected3.setVelocity(0, 5);
+        expected3.setLocation(0, 5 * 0.5);
+
+        engine.updateObject(0.5, player3);
+        TestUtils.comparePlayers(expected3, player3);
+
+        // Test 4: Zero Y velocity only
+        Player player4 = new Player(0, 0, 100);
+        player4.setVelocity(3, 0);
+        Player expected4 = new Player(0, 0, 100);
+        expected4.setVelocity(3, 0);
+        expected4.setLocation(3 * 0.5, 0);
+
+        engine.updateObject(0.5, player4);
+        TestUtils.comparePlayers(expected4, player4);
+    }
+
+    @Test
+    public void testUpdateObjectWithNonWholeVelocity() {
+        PhysicsEngine engine = new PhysicsEngine();
+
+        // Test 1: Small decimal velocities
+        Player player1 = new Player(0, 0, 100);
+        player1.setVelocity(0.5, 0.25);
+        Player expected1 = new Player(0, 0, 100);
+        expected1.setVelocity(0.5, 0.25);
+        expected1.setLocation(0.5 * 1.0, 0.25 * 1.0);
+
+        engine.updateObject(1.0, player1);
+        TestUtils.comparePlayers(expected1, player1);
+
+        // Test 2: Negative decimal velocities
+        Player player2 = new Player(10, 10, 100);
+        player2.setVelocity(-2.5, -1.75);
+        Player expected2 = new Player(10, 10, 100);
+        expected2.setVelocity(-2.5, -1.75);
+        expected2.setLocation(10 + (-2.5 * 0.5), 10 + (-1.75 * 0.5));
+
+        engine.updateObject(0.5, player2);
+        TestUtils.comparePlayers(expected2, player2);
+
+        // Test 3: Mixed whole and decimal velocities
+        Player player3 = new Player(5.5, 7.3, 100);
+        player3.setVelocity(3, 4.2);
+        Player expected3 = new Player(5.5, 7.3, 100);
+        expected3.setVelocity(3, 4.2);
+        expected3.setLocation(5.5 + (3 * 0.25), 7.3 + (4.2 * 0.25));
+
+        engine.updateObject(0.25, player3);
+        TestUtils.comparePlayers(expected3, player3);
+    }
+
+    @Test
+    public void testUpdateObjectWithVariousDeltaTimes() {
+        PhysicsEngine engine = new PhysicsEngine();
+
+        // Test 1: Very small dt
+        Player player1 = new Player(0, 0, 100);
+        player1.setVelocity(10, 10);
+        Player expected1 = new Player(0, 0, 100);
+        expected1.setVelocity(10, 10);
+        expected1.setLocation(10 * 0.01, 10 * 0.01);
+
+        engine.updateObject(0.01, player1);
+        TestUtils.comparePlayers(expected1, player1);
+
+        // Test 2: Large dt
+        Player player2 = new Player(0, 0, 100);
+        player2.setVelocity(1.5, 2.5);
+        Player expected2 = new Player(0, 0, 100);
+        expected2.setVelocity(1.5, 2.5);
+        expected2.setLocation(1.5 * 5.0, 2.5 * 5.0);
+
+        engine.updateObject(5.0, player2);
+        TestUtils.comparePlayers(expected2, player2);
+
+        // Test 3: Zero dt (no time elapsed)
+        Player player3 = new Player(5, 10, 100);
+        player3.setVelocity(3, -4);
+        Player expected3 = new Player(5, 10, 100);
+        expected3.setVelocity(3, -4);
+        expected3.setLocation(5, 10);
+
+        engine.updateObject(0, player3);
+        TestUtils.comparePlayers(expected3, player3);
+    }
 }
+

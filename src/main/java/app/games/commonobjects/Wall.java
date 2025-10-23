@@ -42,42 +42,42 @@ public class Wall extends StaticGameObject {
         double otherBottom = otherTop + otherHitbox.getDimensions().getY();
 
         // Calculate minimum push distances to clear the overlap from each side
-        double pushRightDist = wallRight - otherLeft;
-        double pushLeftDist = otherRight - wallLeft;
-        double pushDownDist = wallBottom - otherTop;
-        double pushUpDist = otherBottom - wallTop;
+        double pushRightDistance = wallRight - otherLeft;
+        double pushLeftDistance = otherRight - wallLeft;
+        double pushDownDistance = wallBottom - otherTop;
+        double pushUpDistance = otherBottom - wallTop;
 
         // Find the minimum of the four possible push distances
-        double minPush = pushRightDist;
+        double minPush = pushRightDistance;
 
-        if (pushLeftDist < minPush) {
-            minPush = pushLeftDist;
+        if (pushLeftDistance < minPush) {
+            minPush = pushLeftDistance;
         }
-        if (pushDownDist < minPush) {
-            minPush = pushDownDist;
+        if (pushDownDistance < minPush) {
+            minPush = pushDownDistance;
         }
-        if (pushUpDist < minPush) {
-            minPush = pushUpDist;
+        if (pushUpDistance < minPush) {
+            minPush = pushUpDistance;
         }
 
         Vector2D otherLocation = otherObject.getLocation();
 
         // Apply the push in the direction of minimum distance
-        if (minPush == pushUpDist) {
+        if (minPush == pushUpDistance) {
             // Push Up
-            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() - pushUpDist);
+            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() - pushUpDistance);
             otherObject.getVelocity().setY(0);
-        } else if (minPush == pushDownDist) {
+        } else if (minPush == pushDownDistance) {
             // Push Down
-            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() + pushDownDist);
+            otherObject.setLocation(otherLocation.getX(), otherLocation.getY() + pushDownDistance);
             otherObject.getVelocity().setY(0);
-        } else if (minPush == pushLeftDist) {
+        } else if (minPush == pushLeftDistance) {
             // Push Left
-            otherObject.setLocation(otherLocation.getX() - pushLeftDist, otherLocation.getY());
+            otherObject.setLocation(otherLocation.getX() - pushLeftDistance, otherLocation.getY());
             otherObject.getVelocity().setX(0);
         } else { // minPush == pushRightDist
             // Push Right
-            otherObject.setLocation(otherLocation.getX() + pushRightDist, otherLocation.getY());
+            otherObject.setLocation(otherLocation.getX() + pushRightDistance, otherLocation.getY());
             otherObject.getVelocity().setX(0);
         }
     }
