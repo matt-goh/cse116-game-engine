@@ -14,6 +14,7 @@ import app.gameengine.model.gameobjects.StaticGameObject;
 import app.games.commonobjects.Goal;
 import app.games.commonobjects.InfoNode;
 import app.games.commonobjects.Wall;
+import app.games.mario.*;
 import app.games.topdownobjects.Demon;
 import app.games.topdownobjects.TopDownLevel;
 import app.games.topdownobjects.Tower;
@@ -37,7 +38,7 @@ public class LevelParser {
             List<String> lines = Files.readAllLines(Paths.get(fullPath));
 
             // initialize the level variable
-            TopDownLevel level = null;
+            Level level = null;
 
             // loop through each line from the file
             for (String line : lines) {
@@ -53,6 +54,15 @@ public class LevelParser {
                         int height = Integer.parseInt(parts[3]);
                         // create the level object
                         level = new TopDownLevel(game, width, height, levelName);
+                        break;
+
+                    case "MarioLevel":
+                        // "MarioLevel,LevelName,Width,Height"
+                        String marioLevelName = parts[1];
+                        int marioWidth = Integer.parseInt(parts[2]);
+                        int marioHeight = Integer.parseInt(parts[3]);
+                        // create the MarioLevel object using the new constructor
+                        level = new MarioLevel(game, marioWidth, marioHeight, marioLevelName);
                         break;
 
                     case "PlayerStartLocation":
@@ -161,6 +171,10 @@ public class LevelParser {
                 return new Demon(x, y, Integer.parseInt(split.get(4)), Integer.parseInt(split.get(5)));
             case "Tower":
                 return new Tower(x, y);
+            case "Goomba":
+                return new Goomba(x,y);
+            case "Koopa":
+                return new Koopa(x,y);
             default:
                 String line = String.join(",", split);
                 System.out.println("** Dynamic object for line \"" + line + "\" could not be read **");
@@ -183,6 +197,7 @@ public class LevelParser {
      * @return the object that is described by {@code split}
      */
     public static StaticGameObject readStaticObject(Game game, Level level, ArrayList<String> split) {
+        String type = split.get(1);
         double x = Double.parseDouble(split.get(2));
         double y = Double.parseDouble(split.get(3));
         switch (split.get(1)) {
@@ -192,6 +207,20 @@ public class LevelParser {
                 return new Goal(x, y, game);
             case "InfoNode":
                 return new InfoNode(x, y, split.get(4));
+            case "Block":
+            case "Bricks":
+            case "Ground":
+                return new Block(x, y, type);
+            case "QuestionBlock":
+                return new QuestionBlock(x,y);
+            case "HiddenBlock":
+                return new HiddenBlock(x,y);
+            case "PipeEnd":
+                return new PipeEnd(x,y);
+            case "PipeStem":
+                return new PipeStem(x,y);
+            case "Flag":
+                return new Flag(x, y, game);
             default:
                 String line = String.join(",", split);
                 System.out.println("** Static object for line \"" + line + "\" could not be read **");

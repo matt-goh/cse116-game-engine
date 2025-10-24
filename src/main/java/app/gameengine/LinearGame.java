@@ -17,12 +17,68 @@ import app.gameengine.model.gameobjects.Player;
  */
 public class LinearGame extends Game {
 
-    public LinearGame() {
-        super();
-    }
+    private LinkedListNode<Level> levelList;
 
     public LinearGame(Player player) {
         super(player);
+        this.levelList = null;
     }
 
+    public LinkedListNode<Level> getLevelList() {
+        return this.levelList;
+    }
+
+    public void setLevelList(LinkedListNode<Level> levelList) {
+        this.levelList = levelList;
+    }
+
+    public void addLevel(Level level) {
+        LinkedListNode<Level> newNode = new LinkedListNode<>(level, null);
+
+        if (this.levelList == null) {
+            this.levelList = newNode;
+        } else {
+            LinkedListNode<Level> current = this.levelList;
+            while (current.getNext() != null) {
+                current = current.getNext();
+            }
+            current.setNext(newNode);
+        }
+    }
+
+    public void advanceLevel() {
+        if (this.getCurrentLevel() == null || this.levelList == null) {
+            return;
+        }
+        LinkedListNode<Level> current = this.levelList;
+        while (current != null) {
+            if (current.getValue().getName().equals(this.getCurrentLevel().getName())) {
+                if (current.getNext() != null) {
+                    this.loadLevel(current.getNext().getValue());
+                }
+                return;
+            }
+            current = current.getNext();
+        }
+    }
+
+    public void removeLevelByName(String name) {
+        if (this.levelList == null) {
+            return;
+        }
+
+        if (this.levelList.getValue().getName().equals(name)) {
+            this.levelList = this.levelList.getNext();
+            return;
+        }
+
+        LinkedListNode<Level> current = this.levelList;
+        while (current.getNext() != null) {
+            if (current.getNext().getValue().getName().equals(name)) {
+                current.setNext(current.getNext().getNext());
+                return;
+            }
+            current = current.getNext();
+        }
+    }
 }

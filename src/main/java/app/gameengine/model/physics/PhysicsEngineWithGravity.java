@@ -18,7 +18,7 @@ import javafx.util.Pair;
  * @see PhysicsEngine
  */
 public class PhysicsEngineWithGravity extends PhysicsEngine {
-
+    private double gravity;
     private static double DEFAULT_GRAVITY = 40;
 
     public PhysicsEngineWithGravity() {
@@ -26,7 +26,28 @@ public class PhysicsEngineWithGravity extends PhysicsEngine {
     }
 
     public PhysicsEngineWithGravity(double gravity) {
-        super();
+        this.gravity = gravity;
+    }
+
+    public double getGravity() {
+        return this.gravity;
+    }
+
+    public void setGravity(double gravity) {
+        this.gravity = gravity;
+    }
+
+    @Override
+    public void updateObject(double changeInTime, DynamicGameObject object) {
+        // apply gravity
+        if (!object.isOnGround() && !object.isPlayer()) {
+            Vector2D velocity = object.getVelocity();
+            double changeInVelocity = this.gravity * changeInTime;
+            velocity.setY(velocity.getY() + changeInVelocity);
+        }
+
+        // update position
+        super.updateObject(changeInTime, object);
     }
 
     @Override
@@ -46,8 +67,8 @@ public class PhysicsEngineWithGravity extends PhysicsEngine {
             }
             // Process static object collisions in order of distance
             staticCollisions.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
-            for (int j = 0; j < staticCollisions.size(); j++) {
-                StaticGameObject staticObject = staticCollisions.get(j).getKey();
+            for (Pair<StaticGameObject, Double> staticCollision : staticCollisions) {
+                StaticGameObject staticObject = staticCollision.getKey();
                 if (detectCollision(object1.getHitbox(), staticObject.getHitbox())) {
                     staticObject.collideWithDynamicObject(object1);
                     object1.collideWithStaticObject(staticObject);
@@ -64,8 +85,8 @@ public class PhysicsEngineWithGravity extends PhysicsEngine {
             }
             // Process dynamic object collisions in order of distance
             dynamicCollisions.sort((a, b) -> Double.compare(a.getValue(), b.getValue()));
-            for (int j = 0; j < dynamicCollisions.size(); j++) {
-                DynamicGameObject object2 = dynamicCollisions.get(j).getKey();
+            for (Pair<DynamicGameObject, Double> dynamicCollision : dynamicCollisions) {
+                DynamicGameObject object2 = dynamicCollision.getKey();
                 if (detectCollision(object1.getHitbox(), object2.getHitbox())) {
                     object1.collideWithDynamicObject(object2);
                     object2.collideWithDynamicObject(object1);

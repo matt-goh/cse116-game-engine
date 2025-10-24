@@ -1,5 +1,7 @@
 package app.tests;
 
+import app.gameengine.Level;
+import app.gameengine.model.datastructures.LinkedListNode;
 import app.gameengine.model.gameobjects.Player;
 
 import static org.junit.Assert.assertEquals;
