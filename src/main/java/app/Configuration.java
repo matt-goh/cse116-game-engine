@@ -14,7 +14,7 @@ import app.games.GameFactory;
  * <p>
  * Note that most of these values are only defaults, and games/levels/objects
  * may override these values with their own in many cases.
- * 
+ *
  * @see Settings
  * @see GameFactory
  */
@@ -24,7 +24,7 @@ public class Configuration {
      * The game being played. Must be a valid option within the factory method
      * {@link GameFactory#getGame}.
      */
-    public static final String GAME = "mario";
+    public static final String GAME = "Sample Game";
 
     /**
      * Multiplier for increasing the size of the window and objects within the game.
