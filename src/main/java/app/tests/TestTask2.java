@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import app.gameengine.LinearGame;
+import app.gameengine.model.datastructures.LinkedListNode;
 import org.junit.Test;
 
 import app.gameengine.Level;
@@ -247,4 +249,56 @@ public class TestTask2 {
         assertTrue(level instanceof TopDownLevel);
     }
 
+    // LinearGame Tests
+
+    @Test
+    public void testAddLevel() {
+        LinearGame game = new MarioGame();
+        Level level1 = new TopDownLevel(game, 100, 100, "Level 1");
+        Level level2 = new TopDownLevel(game, 100, 100, "Level 2");
+
+        game.addLevel(level1);
+        game.addLevel(level2);
+
+        LinkedListNode<Level> expected = new LinkedListNode<>(level1, new LinkedListNode<>(level2, null));
+
+        TestUtils.compareListsOfLevels(expected, game.getLevelList());
+    }
+
+    @Test
+    public void testAdvanceLevel() {
+        LinearGame game = new MarioGame();
+        Level level1 = new TopDownLevel(game, 100, 100, "Level 1");
+        Level level2 = new TopDownLevel(game, 100, 100, "Level 2");
+
+        game.addLevel(level1);
+        game.addLevel(level2);
+
+        game.loadLevel(level1);
+        assertEquals("Level 1", game.getCurrentLevel().getName());
+
+        game.advanceLevel();
+        assertEquals("Level 2", game.getCurrentLevel().getName());
+
+        LinkedListNode<Level> expected = new LinkedListNode<>(level1, new LinkedListNode<>(level2, null));
+        TestUtils.compareListsOfLevels(expected, game.getLevelList());
+    }
+
+    @Test
+    public void testRemoveLevelByName() {
+        LinearGame game = new MarioGame();
+        Level level1 = new TopDownLevel(game, 100, 100, "Level 1");
+        Level level2 = new TopDownLevel(game, 100, 100, "Level 2");
+        Level level3 = new TopDownLevel(game, 100, 100, "Level 1");
+
+        game.addLevel(level1);
+        game.addLevel(level2);
+        game.addLevel(level3);
+
+        game.removeLevelByName("Level 1");
+
+        LinkedListNode<Level> expected = new LinkedListNode<>(level2, new LinkedListNode<>(level3, null));
+
+        TestUtils.compareListsOfLevels(expected, game.getLevelList());
+    }
 }

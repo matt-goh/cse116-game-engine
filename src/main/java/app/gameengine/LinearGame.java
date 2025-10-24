@@ -10,7 +10,7 @@ import app.gameengine.model.gameobjects.Player;
  * <p>
  * This class implements the functionality to advance to the next level, as well
  * as additional functionality to replace or remove levels by name.
- * 
+ *
  * @see LinkedListNode
  * @see Game
  * @see Level
@@ -19,8 +19,8 @@ public class LinearGame extends Game {
 
     private LinkedListNode<Level> levelList;
 
-    public LinearGame(Player player) {
-        super(player);
+    public LinearGame() {
+        super();
         this.levelList = null;
     }
 
