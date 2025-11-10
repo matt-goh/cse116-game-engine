@@ -7,9 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.junit.Test;
-
 import app.gameengine.Level;
 import app.gameengine.LevelParser;
 import app.gameengine.LinearGame;
@@ -450,54 +448,31 @@ public class TestTask3 {
         assertEquals(12, ((PotionPickup) object).getHealAmount());
     }
 
-    private static class TestDecision extends Decision {
-        private boolean decideResult;
-        private int actionCallCount = 0;
-
-        public TestDecision(String name, boolean decideResult) {
-            super(new Demon(0, 0), name);
-            this.decideResult = decideResult;
-        }
-
-        @Override
-        public boolean decide(double dt, Level level) {
-            return decideResult;
-        }
-
-        @Override
-        public void doAction(double dt, Level level) {
-            actionCallCount++;
-        }
-
-        public int getActionCallCount() {
-            return actionCallCount;
-        }
-    }
-
     @Test
     public void testDecisionTreeTraverseReturnsDecision() {
         LinearGame game = new LinearGame();
         TopDownLevel level = new TopDownLevel(game, 10, 10, "test");
+        Demon agent = new Demon(0, 0);
 
         DecisionTree tree = new DecisionTree(null);
         Decision result = tree.traverse(null, 1.0, level);
         assertEquals(null, result);
 
-        TestDecision leaf = new TestDecision("leaf", false);
+        TestDecision leaf = new TestDecision(agent, "leaf", false);
         BinaryTreeNode<Decision> singleNode = new BinaryTreeNode<>(leaf, null, null);
         result = tree.traverse(singleNode, 1.0, level);
         assertSame(leaf, result);
 
-        TestDecision root = new TestDecision("root", false);
-        TestDecision left = new TestDecision("left", false);
-        TestDecision right = new TestDecision("right", false);
+        TestDecision root = new TestDecision(agent, "root", false);
+        TestDecision left = new TestDecision(agent, "left", false);
+        TestDecision right = new TestDecision(agent, "right", false);
         BinaryTreeNode<Decision> leftNode = new BinaryTreeNode<>(left, null, null);
         BinaryTreeNode<Decision> rightNode = new BinaryTreeNode<>(right, null, null);
         BinaryTreeNode<Decision> rootNode = new BinaryTreeNode<>(root, leftNode, rightNode);
         result = tree.traverse(rootNode, 1.0, level);
         assertSame(left, result);
 
-        TestDecision root2 = new TestDecision("root2", true);
+        TestDecision root2 = new TestDecision(agent, "root2", true);
         BinaryTreeNode<Decision> rootNode2 = new BinaryTreeNode<>(root2, leftNode, rightNode);
         result = tree.traverse(rootNode2, 1.0, level);
         assertSame(right, result);
@@ -507,36 +482,37 @@ public class TestTask3 {
     public void testDecisionTreeTraverseCallsDoAction() {
         LinearGame game = new LinearGame();
         TopDownLevel level = new TopDownLevel(game, 10, 10, "test");
+        Demon agent = new Demon(0, 0);
 
-        TestDecision leaf = new TestDecision("leaf", false);
+        TestDecision leaf = new TestDecision(agent, "leaf", false);
         BinaryTreeNode<Decision> singleNode = new BinaryTreeNode<>(leaf, null, null);
         DecisionTree tree = new DecisionTree(singleNode);
         tree.traverse(1.0, level);
-        assertEquals(1, leaf.getActionCallCount());
+        assertTrue(leaf.isUsed());
 
-        TestDecision root = new TestDecision("root", false);
-        TestDecision left = new TestDecision("left", false);
-        TestDecision right = new TestDecision("right", false);
+        TestDecision root = new TestDecision(agent, "root", false);
+        TestDecision left = new TestDecision(agent, "left", false);
+        TestDecision right = new TestDecision(agent, "right", false);
         BinaryTreeNode<Decision> leftNode = new BinaryTreeNode<>(left, null, null);
         BinaryTreeNode<Decision> rightNode = new BinaryTreeNode<>(right, null, null);
         BinaryTreeNode<Decision> rootNode = new BinaryTreeNode<>(root, leftNode, rightNode);
         tree = new DecisionTree(rootNode);
         tree.traverse(1.0, level);
-        assertEquals(0, root.getActionCallCount());
-        assertEquals(1, left.getActionCallCount());
-        assertEquals(0, right.getActionCallCount());
+        assertTrue(!root.isUsed());
+        assertTrue(left.isUsed());
+        assertTrue(!right.isUsed());
 
-        TestDecision root2 = new TestDecision("root2", true);
-        TestDecision left2 = new TestDecision("left2", false);
-        TestDecision right2 = new TestDecision("right2", false);
+        TestDecision root2 = new TestDecision(agent, "root2", true);
+        TestDecision left2 = new TestDecision(agent, "left2", false);
+        TestDecision right2 = new TestDecision(agent, "right2", false);
         BinaryTreeNode<Decision> leftNode2 = new BinaryTreeNode<>(left2, null, null);
         BinaryTreeNode<Decision> rightNode2 = new BinaryTreeNode<>(right2, null, null);
         BinaryTreeNode<Decision> rootNode2 = new BinaryTreeNode<>(root2, leftNode2, rightNode2);
         DecisionTree tree2 = new DecisionTree(rootNode2);
         tree2.traverse(1.0, level);
-        assertEquals(0, root2.getActionCallCount());
-        assertEquals(0, left2.getActionCallCount());
-        assertEquals(1, right2.getActionCallCount());
+        assertTrue(!root2.isUsed());
+        assertTrue(!left2.isUsed());
+        assertTrue(right2.isUsed());
     }
 
     @Test
