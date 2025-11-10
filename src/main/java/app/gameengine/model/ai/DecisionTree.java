@@ -47,13 +47,17 @@ public class DecisionTree {
         }
 
         Decision decision = node.getValue();
+
+        if (node.getLeft() == null && node.getRight() == null) {
+            return decision;
+        }
+
         boolean result = decision.decide(dt, level);
 
-        // If result is false, go left; if true, go right
         BinaryTreeNode<Decision> nextNode = result ? node.getRight() : node.getLeft();
 
         if (nextNode == null) {
-            return decision;
+            return null;
         }
 
         return traverse(nextNode, dt, level);

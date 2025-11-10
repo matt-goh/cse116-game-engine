@@ -557,4 +557,90 @@ public class TestTask3 {
         assertEquals("No item equipped", player.getActiveItemID());
     }
 
+    @Test
+    public void testPlayerRemoveActiveItemFromMiddle() {
+        LinearGame game = new LinearGame();
+        Player player = new Player(0, 0, 10);
+
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+        player.addInventoryItem(new PotionPickup(0, 0, 5, game));
+
+        player.cycleInventory();
+        assertEquals("Axe", player.getActiveItemID());
+
+        player.removeActiveItem();
+        assertEquals("Health Potion", player.getActiveItemID());
+    }
+
+    @Test
+    public void testPlayerRemoveLastItem() {
+        LinearGame game = new LinearGame();
+        Player player = new Player(0, 0, 10);
+
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+        player.addInventoryItem(new PotionPickup(0, 0, 5, game));
+
+        player.cycleInventory();
+        player.cycleInventory();
+        assertEquals("Health Potion", player.getActiveItemID());
+
+        player.removeActiveItem();
+        assertEquals("Magic", player.getActiveItemID());
+    }
+
+    @Test
+    public void testPlayerInventoryWithManyItems() {
+        LinearGame game = new LinearGame();
+        Player player = new Player(0, 0, 10);
+
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+        player.addInventoryItem(new PotionPickup(0, 0, 5, game));
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+
+        assertEquals("Magic", player.getActiveItemID());
+
+        player.cycleInventory();
+        assertEquals("Axe", player.getActiveItemID());
+        player.cycleInventory();
+        assertEquals("Health Potion", player.getActiveItemID());
+        player.cycleInventory();
+        assertEquals("Magic", player.getActiveItemID());
+        player.cycleInventory();
+        assertEquals("Axe", player.getActiveItemID());
+
+        player.cycleInventory();
+        assertEquals("Magic", player.getActiveItemID());
+
+        player.cycleInventory();
+        player.cycleInventory();
+        player.removeActiveItem();
+        assertEquals("Magic", player.getActiveItemID());
+    }
+
+    @Test
+    public void testDecisionTreeTraverseReturnsNull() {
+        LinearGame game = new LinearGame();
+        TopDownLevel level = new TopDownLevel(game, 10, 10, "test");
+        Demon agent = new Demon(0, 0);
+
+        TestDecision root = new TestDecision(agent, "root", true);
+        TestDecision left = new TestDecision(agent, "left", false);
+        BinaryTreeNode<Decision> leftNode = new BinaryTreeNode<>(left, null, null);
+        BinaryTreeNode<Decision> rootNode = new BinaryTreeNode<>(root, leftNode, null);
+        DecisionTree tree = new DecisionTree(rootNode);
+        Decision result = tree.traverse(rootNode, 1.0, level);
+        assertEquals(null, result);
+
+        TestDecision root2 = new TestDecision(agent, "root2", false);
+        TestDecision right = new TestDecision(agent, "right", false);
+        BinaryTreeNode<Decision> rightNode = new BinaryTreeNode<>(right, null, null);
+        BinaryTreeNode<Decision> rootNode2 = new BinaryTreeNode<>(root2, null, rightNode);
+        result = tree.traverse(rootNode2, 1.0, level);
+        assertEquals(null, result);
+    }
+
 }
