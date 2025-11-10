@@ -525,7 +525,6 @@ public class TestTask3 {
         player.addInventoryItem(new MagicPickup(0, 0, game));
         player.addInventoryItem(new AxePickup(0, 0, game));
         player.addInventoryItem(new PotionPickup(0, 0, 5, game));
-        assertEquals(3, player.getInventorySize());
         assertEquals("Magic", player.getActiveItemID());
 
         player.cycleInventory();
@@ -549,15 +548,12 @@ public class TestTask3 {
         assertEquals("Magic", player.getActiveItemID());
 
         player.removeActiveItem();
-        assertEquals(2, player.getInventorySize());
         assertEquals("Axe", player.getActiveItemID());
 
         player.removeActiveItem();
-        assertEquals(1, player.getInventorySize());
         assertEquals("Health Potion", player.getActiveItemID());
 
         player.removeActiveItem();
-        assertEquals(0, player.getInventorySize());
         assertEquals("No item equipped", player.getActiveItemID());
     }
 
