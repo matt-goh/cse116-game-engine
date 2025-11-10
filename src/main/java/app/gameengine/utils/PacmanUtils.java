@@ -11,7 +11,7 @@ import app.games.pacman.PacmanLevel;
 
 /**
  * Static class containing utilities for Pacman.
- * 
+ *
  * @see PacmanGame
  * @see PacmanLevel
  */
@@ -30,7 +30,7 @@ public class PacmanUtils {
      * Returns whether a ghost is near the center of their current tile. This is
      * useful because ghosts can only act when they are near the center of their
      * tile.
-     * 
+     *
      * @param ghost the ghost
      * @return whether the ghost is centered
      */
@@ -45,7 +45,7 @@ public class PacmanUtils {
     /**
      * Returns the vector within the level that this ghost is attempting to reach
      * when in chase mode, depending on their color.
-     * 
+     *
      * @param level the level being played
      * @param ghost the ghost
      * @return the vector being targeted
@@ -79,7 +79,7 @@ public class PacmanUtils {
     /**
      * Returns the vector within the level that this ghost is attempting to reach
      * when dead.
-     * 
+     *
      * @param level the level being played
      * @return the vector being targeted
      */
@@ -90,7 +90,7 @@ public class PacmanUtils {
     /**
      * Returns the vector within the level that this ghost is attempting to reach
      * when in scatter mode, depending on their color.
-     * 
+     *
      * @param level the level being played
      * @param ghost the ghost
      * @return the vector being targeted
@@ -114,7 +114,7 @@ public class PacmanUtils {
      * of these are valid directions, and no checks are performed. If the list is
      * empty, this method returns null. This method is useful for choosing a target
      * when a ghost is in frightened mode.
-     * 
+     *
      * @param validDirs the list to choose from
      * @return a random element from that list
      */
@@ -131,7 +131,7 @@ public class PacmanUtils {
      * that all of these are valid directions, and no checks are performed. If the
      * list is empty, this method returns null. This method is useful for choosing a
      * direction when a ghost is in chase mode.
-     * 
+     *
      * @param validDirs the list to choose from
      * @param location  the location of the ghost
      * @param target    the target of the ghost
@@ -158,7 +158,7 @@ public class PacmanUtils {
      * Returns a list of valid directions for a ghost to move. It is assumed that a
      * ghost is centered on their tile. A direction is valid if it is in the bounds
      * of the level, not in a wall, and not backwards.
-     * 
+     *
      * @param level the level being played
      * @param ghost the ghost
      * @return a list of valid directions
@@ -172,11 +172,31 @@ public class PacmanUtils {
             if (!dir.equals(Vector2D.negate(ghost.getOrientation()))
                     && GameUtils.isInBounds(level, neighbor)
                     && (!level.getWalls().containsKey(neighbor)
-                            || (level.getWalls().containsKey(neighbor) && !level.getWalls().get(neighbor).isSolid()))) {
+                    || (level.getWalls().containsKey(neighbor) && !level.getWalls().get(neighbor).isSolid()))) {
                 validDirs.add(dir);
             }
         }
         return validDirs;
     }
 
+    /**
+     * Returns whether a ghost is allowed to take action given its current state.
+     * Actions include chasing, scattering, fleeing, and returning home. A ghost may
+     * act if two things are true:
+     * <p>
+     * 1) They are either near the center of their current tile, or they are not
+     * moving, and
+     * <p>
+     * 2) The last whole tile they were on is either null or they are closer to
+     * another tile than that tile.
+     *
+     * @param ghost    the ghost
+     * @param dt       the time elapsed since the last update, in seconds
+     * @param lastTile the last whole tile the ghost was on
+     * @return whether the ghost is allowed to act
+     */
+    public static boolean canAct(Ghost ghost, double dt, Vector2D lastTile) {
+        return (PacmanUtils.isNearTile(ghost, dt) || ghost.getVelocity().equals(new Vector2D(0, 0)))
+                && (lastTile == null || !Vector2D.round(ghost.getLocation()).equals(lastTile));
+    }
 }
