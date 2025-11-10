@@ -24,14 +24,14 @@ public class Configuration {
      * The game being played. Must be a valid option within the factory method
      * {@link GameFactory#getGame}.
      */
-    public static final String GAME = "Sample Game";
+    public static final String GAME = "pacman";
 
     /**
      * Multiplier for increasing the size of the window and objects within the game.
      * If {@link #INTEGER_SCALE} is enabled, this should be a whole number for best
      * results.
      */
-    public static final double ZOOM = 3.0;
+    public static final double ZOOM = 2.0;
 
     /**
      * Default sprite size, in pixels, of objects within the game. This can be
