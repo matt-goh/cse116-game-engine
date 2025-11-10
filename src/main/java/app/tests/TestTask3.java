@@ -14,6 +14,8 @@ import app.gameengine.Level;
 import app.gameengine.LevelParser;
 import app.gameengine.LinearGame;
 import app.gameengine.model.ai.Decision;
+import app.gameengine.model.ai.DecisionTree;
+import app.gameengine.model.datastructures.BinaryTreeNode;
 import app.gameengine.model.ai.pacman.Chase;
 import app.gameengine.model.ai.pacman.Dead;
 import app.gameengine.model.ai.pacman.Flee;
@@ -446,6 +448,141 @@ public class TestTask3 {
         assertTrue(object instanceof PotionPickup);
         assertEquals(new Vector2D(10, 5), object.getLocation());
         assertEquals(12, ((PotionPickup) object).getHealAmount());
+    }
+
+    private static class TestDecision extends Decision {
+        private boolean decideResult;
+        private int actionCallCount = 0;
+
+        public TestDecision(String name, boolean decideResult) {
+            super(new Demon(0, 0), name);
+            this.decideResult = decideResult;
+        }
+
+        @Override
+        public boolean decide(double dt, Level level) {
+            return decideResult;
+        }
+
+        @Override
+        public void doAction(double dt, Level level) {
+            actionCallCount++;
+        }
+
+        public int getActionCallCount() {
+            return actionCallCount;
+        }
+    }
+
+    @Test
+    public void testDecisionTreeTraverseReturnsDecision() {
+        LinearGame game = new LinearGame();
+        TopDownLevel level = new TopDownLevel(game, 10, 10, "test");
+
+        DecisionTree tree = new DecisionTree(null);
+        Decision result = tree.traverse(null, 1.0, level);
+        assertEquals(null, result);
+
+        TestDecision leaf = new TestDecision("leaf", false);
+        BinaryTreeNode<Decision> singleNode = new BinaryTreeNode<>(leaf, null, null);
+        result = tree.traverse(singleNode, 1.0, level);
+        assertSame(leaf, result);
+
+        TestDecision root = new TestDecision("root", false);
+        TestDecision left = new TestDecision("left", false);
+        TestDecision right = new TestDecision("right", false);
+        BinaryTreeNode<Decision> leftNode = new BinaryTreeNode<>(left, null, null);
+        BinaryTreeNode<Decision> rightNode = new BinaryTreeNode<>(right, null, null);
+        BinaryTreeNode<Decision> rootNode = new BinaryTreeNode<>(root, leftNode, rightNode);
+        result = tree.traverse(rootNode, 1.0, level);
+        assertSame(left, result);
+
+        TestDecision root2 = new TestDecision("root2", true);
+        BinaryTreeNode<Decision> rootNode2 = new BinaryTreeNode<>(root2, leftNode, rightNode);
+        result = tree.traverse(rootNode2, 1.0, level);
+        assertSame(right, result);
+    }
+
+    @Test
+    public void testDecisionTreeTraverseCallsDoAction() {
+        LinearGame game = new LinearGame();
+        TopDownLevel level = new TopDownLevel(game, 10, 10, "test");
+
+        TestDecision leaf = new TestDecision("leaf", false);
+        BinaryTreeNode<Decision> singleNode = new BinaryTreeNode<>(leaf, null, null);
+        DecisionTree tree = new DecisionTree(singleNode);
+        tree.traverse(1.0, level);
+        assertEquals(1, leaf.getActionCallCount());
+
+        TestDecision root = new TestDecision("root", false);
+        TestDecision left = new TestDecision("left", false);
+        TestDecision right = new TestDecision("right", false);
+        BinaryTreeNode<Decision> leftNode = new BinaryTreeNode<>(left, null, null);
+        BinaryTreeNode<Decision> rightNode = new BinaryTreeNode<>(right, null, null);
+        BinaryTreeNode<Decision> rootNode = new BinaryTreeNode<>(root, leftNode, rightNode);
+        tree = new DecisionTree(rootNode);
+        tree.traverse(1.0, level);
+        assertEquals(0, root.getActionCallCount());
+        assertEquals(1, left.getActionCallCount());
+        assertEquals(0, right.getActionCallCount());
+
+        TestDecision root2 = new TestDecision("root2", true);
+        TestDecision left2 = new TestDecision("left2", false);
+        TestDecision right2 = new TestDecision("right2", false);
+        BinaryTreeNode<Decision> leftNode2 = new BinaryTreeNode<>(left2, null, null);
+        BinaryTreeNode<Decision> rightNode2 = new BinaryTreeNode<>(right2, null, null);
+        BinaryTreeNode<Decision> rootNode2 = new BinaryTreeNode<>(root2, leftNode2, rightNode2);
+        DecisionTree tree2 = new DecisionTree(rootNode2);
+        tree2.traverse(1.0, level);
+        assertEquals(0, root2.getActionCallCount());
+        assertEquals(0, left2.getActionCallCount());
+        assertEquals(1, right2.getActionCallCount());
+    }
+
+    @Test
+    public void testPlayerAddInventoryAndCycle() {
+        LinearGame game = new LinearGame();
+        Player player = new Player(0, 0, 10);
+
+        assertEquals("No item equipped", player.getActiveItemID());
+
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+        player.addInventoryItem(new PotionPickup(0, 0, 5, game));
+        assertEquals(3, player.getInventorySize());
+        assertEquals("Magic", player.getActiveItemID());
+
+        player.cycleInventory();
+        assertEquals("Axe", player.getActiveItemID());
+
+        player.cycleInventory();
+        assertEquals("Health Potion", player.getActiveItemID());
+
+        player.cycleInventory();
+        assertEquals("Magic", player.getActiveItemID());
+    }
+
+    @Test
+    public void testPlayerRemoveActiveItem() {
+        LinearGame game = new LinearGame();
+        Player player = new Player(0, 0, 10);
+
+        player.addInventoryItem(new MagicPickup(0, 0, game));
+        player.addInventoryItem(new AxePickup(0, 0, game));
+        player.addInventoryItem(new PotionPickup(0, 0, 5, game));
+        assertEquals("Magic", player.getActiveItemID());
+
+        player.removeActiveItem();
+        assertEquals(2, player.getInventorySize());
+        assertEquals("Axe", player.getActiveItemID());
+
+        player.removeActiveItem();
+        assertEquals(1, player.getInventorySize());
+        assertEquals("Health Potion", player.getActiveItemID());
+
+        player.removeActiveItem();
+        assertEquals(0, player.getInventorySize());
+        assertEquals("No item equipped", player.getActiveItemID());
     }
 
 }

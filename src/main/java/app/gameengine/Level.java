@@ -1,14 +1,13 @@
 package app.gameengine;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import app.Settings;
 import app.display.common.controller.BasicMouseControls;
 import app.display.common.controller.KeyboardControls;
 import app.display.common.controller.MouseControls;
 import app.display.common.Background;
 import app.display.common.effects.Effect;
+import app.gameengine.model.gameobjects.Collectible;
 import app.gameengine.model.gameobjects.DynamicGameObject;
 import app.gameengine.model.gameobjects.GameObject;
 import app.gameengine.model.gameobjects.Player;
@@ -379,7 +378,10 @@ public abstract class Level {
      * in the player's inventory
      */
     public void actionButtonPressed() {
-        
+        Collectible activeItem = this.getPlayer().getActiveItem();
+        if (activeItem != null) {
+            activeItem.use(this);
+        }
     }
 
     /**

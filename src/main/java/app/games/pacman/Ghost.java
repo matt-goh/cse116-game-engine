@@ -1,11 +1,17 @@
 package app.games.pacman;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import app.display.common.SpriteLocation;
 import app.display.common.sound.AudioManager;
+import app.gameengine.model.ai.DecisionTree;
+import app.gameengine.model.ai.pacman.Chase;
+import app.gameengine.model.ai.pacman.Dead;
+import app.gameengine.model.ai.pacman.Flee;
+import app.gameengine.model.ai.pacman.Idle;
+import app.gameengine.model.ai.pacman.IsActive;
+import app.gameengine.model.ai.pacman.Scatter;
+import app.gameengine.model.datastructures.BinaryTreeNode;
 import app.gameengine.model.gameobjects.DynamicGameObject;
 import app.gameengine.model.gameobjects.StaticGameObject;
 import app.gameengine.model.physics.Vector2D;
@@ -38,6 +44,29 @@ public class Ghost extends Enemy {
         this.defaultSpriteLocation = new SpriteLocation(0, this.spriteRow);
         this.getEffects().clear();
         this.initAnimations();
+
+        BinaryTreeNode<app.gameengine.model.ai.Decision> chaseAction =
+            new BinaryTreeNode<>(new Chase(this, game, "Chase"), null, null);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> scatterAction =
+            new BinaryTreeNode<>(new Scatter(this, game, "Scatter"), null, null);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> chaseDecision =
+            new BinaryTreeNode<>(new Chase(this, game, "Chase?"), scatterAction, chaseAction);
+
+        BinaryTreeNode<app.gameengine.model.ai.Decision> deadAction =
+            new BinaryTreeNode<>(new Dead(this, game, "Dead"), null, null);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> fleeAction =
+            new BinaryTreeNode<>(new Flee(this, game, "Flee"), null, null);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> idleAction =
+            new BinaryTreeNode<>(new Idle(this, "Idle"), null, null);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> fleeDecision =
+            new BinaryTreeNode<>(new Flee(this, game, "Flee?"), idleAction, fleeAction);
+        BinaryTreeNode<app.gameengine.model.ai.Decision> deadDecision =
+            new BinaryTreeNode<>(new Dead(this, game, "Dead?"), fleeDecision, deadAction);
+
+        BinaryTreeNode<app.gameengine.model.ai.Decision> root =
+            new BinaryTreeNode<>(new IsActive(this, "IsActive?"), deadDecision, chaseDecision);
+
+        this.setDecisionTree(new DecisionTree(root));
     }
 
     public String getColor() {

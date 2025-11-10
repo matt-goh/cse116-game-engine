@@ -11,8 +11,11 @@ import app.display.common.Background;
 import app.display.minesweeper.MinesweeperGame;
 import app.gameengine.model.gameobjects.DynamicGameObject;
 import app.gameengine.model.gameobjects.StaticGameObject;
+import app.games.commonobjects.AxePickup;
 import app.games.commonobjects.Goal;
 import app.games.commonobjects.InfoNode;
+import app.games.commonobjects.MagicPickup;
+import app.games.commonobjects.PotionPickup;
 import app.games.commonobjects.Wall;
 import app.games.mario.*;
 import app.games.topdownobjects.Demon;
@@ -221,6 +224,13 @@ public class LevelParser {
                 return new PipeStem(x,y);
             case "Flag":
                 return new Flag(x, y, game);
+            case "AxePickup":
+                return new AxePickup(x, y, game);
+            case "MagicPickup":
+                return new MagicPickup(x, y, game);
+            case "PotionPickup":
+                int heal = Integer.parseInt(split.get(4));
+                return new PotionPickup(x, y, heal, game);
             default:
                 String line = String.join(",", split);
                 System.out.println("** Static object for line \"" + line + "\" could not be read **");

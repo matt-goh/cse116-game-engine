@@ -1,6 +1,6 @@
 package app.gameengine.model.gameobjects;
-
 import app.gameengine.Level;
+import app.gameengine.model.ai.DecisionTree;
 import app.gameengine.model.datastructures.LinkedListNode;
 import app.gameengine.model.physics.Vector2D;
 import app.gameengine.utils.PathfindingUtils;
@@ -19,6 +19,7 @@ public abstract class Agent extends DynamicGameObject {
 
     protected double movementSpeed = 1.0;
     private LinkedListNode<Vector2D> path;
+    private DecisionTree decisionTree;
 
     /**
      * Constructs an agent with the given location and max HP
@@ -47,6 +48,14 @@ public abstract class Agent extends DynamicGameObject {
         this.movementSpeed = speed;
     }
 
+    public DecisionTree getDecisionTree() {
+        return decisionTree;
+    }
+
+    public void setDecisionTree(DecisionTree decisionTree) {
+        this.decisionTree = decisionTree;
+    }
+
     public void followPath(double dt) {
         if (this.path == null) {
             this.setVelocity(0, 0);
@@ -73,6 +82,14 @@ public abstract class Agent extends DynamicGameObject {
     public void reset() {
         super.reset();
         this.path = null;
+    }
+
+    @Override
+    public void update(double dt, Level level) {
+        super.update(dt, level);
+        if (decisionTree != null) {
+            decisionTree.traverse(dt, level);
+        }
     }
 
 }

@@ -1,8 +1,6 @@
 package app.gameengine.model.gameobjects;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import app.Settings;
 import app.display.common.SpriteLocation;
 import app.gameengine.Game;
@@ -23,6 +21,8 @@ import app.gameengine.Level;
 public class Player extends DynamicGameObject {
 
     private double iFrames = 0;
+    private ArrayList<Collectible> inventory = new ArrayList<>();
+    private int activeItemIndex = 0;
 
     /**
      * Constructs a player with the given location and max health.
@@ -46,16 +46,94 @@ public class Player extends DynamicGameObject {
         iFrames = duration;
     }
 
+    /**
+     * Adds a collectible item to the player's inventory.
+     *
+     * @param item the collectible to add
+     */
+    public void addInventoryItem(Collectible item) {
+        inventory.add(item);
+    }
+
+    /**
+     * Returns the number of items in the inventory.
+     *
+     * @return the inventory size
+     */
+    public int getInventorySize() {
+        return inventory.size();
+    }
+
+    /**
+     * Returns the currently active/equipped collectible item.
+     *
+     * @return the active item, or null if inventory is empty
+     */
+    public Collectible getActiveItem() {
+        if (inventory.isEmpty()) {
+            return null;
+        }
+        return inventory.get(activeItemIndex);
+    }
+
+    /**
+     * Returns the ID of the currently active item.
+     *
+     * @return the active item ID, or "No item equipped" if none
+     */
     public String getActiveItemID() {
-        return "No item equipped";
+        Collectible active = getActiveItem();
+        if (active == null) {
+            return "No item equipped";
+        }
+        return active.getItemID();
     }
 
+    /**
+     * Cycles to the next item in the inventory.
+     * Wraps around to the beginning when reaching the end.
+     */
     public void cycleInventory() {
-        
+        if (!inventory.isEmpty()) {
+            activeItemIndex = (activeItemIndex + 1) % inventory.size();
+        }
     }
 
+    /**
+     * Clears all items from the inventory.
+     */
     public void clearInventory() {
-        
+        inventory.clear();
+        activeItemIndex = 0;
+    }
+
+    /**
+     * Uses the currently equipped item if available.
+     *
+     * @param level the current level
+     */
+    public void useActiveItem(Level level) {
+        Collectible active = getActiveItem();
+        if (active != null) {
+            active.use(level);
+        }
+    }
+
+    /**
+     * Removes the currently active item from the inventory.
+     * Adjusts the active item index accordingly.
+     */
+    public void removeActiveItem() {
+        if (!inventory.isEmpty()) {
+            inventory.remove(activeItemIndex);
+
+            if (inventory.isEmpty()) {
+                activeItemIndex = 0;
+            }
+            else if (activeItemIndex >= inventory.size()) {
+                activeItemIndex = 0;
+            }
+        }
     }
 
     @Override
@@ -117,6 +195,10 @@ public class Player extends DynamicGameObject {
     public void update(double dt, Level level) {
         super.update(dt, level);
         this.iFrames -= dt;
+        
+        for (Collectible item : inventory) {
+            item.update(dt, level);
+        }
     }
 
 }
